@@ -233,3 +233,25 @@
   new PureCounter();
 
 })()
+document.addEventListener('DOMContentLoaded', function() {
+  // Animate skill bars when they come into view
+  const skillBars = document.querySelectorAll('.progress');
+  
+  const animateSkill = (entries, observer) => {
+      entries.forEach(entry => {
+          if (entry.isIntersecting) {
+              const progressBar = entry.target.querySelector('.progress-bar');
+              const skill = entry.target.getAttribute('data-skill');
+              progressBar.style.width = `${skill}%`;
+              // Unobserve after animation
+              observer.unobserve(entry.target);
+          }
+      });
+  };
+
+  const skillObserver = new IntersectionObserver(animateSkill, {
+      threshold: 0.5
+  });
+
+  skillBars.forEach(bar => skillObserver.observe(bar));
+});
