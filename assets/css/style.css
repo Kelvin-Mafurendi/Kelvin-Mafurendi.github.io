@@ -18,7 +18,7 @@ h1,h2,h3,h4,h5,h6{font-family:'Montserrat', sans-serif;font-weight:700;color:var
 .back-to-top:hover{background:var(--secondary-color);color:var(--dark-bg);transform:translateY(-4px);}
 .back-to-top.active{visibility:visible;opacity:1;}
 /* Header styles remain the same (Max transparency v1.5) */
-#header{position:fixed;top:0;left:0;right:0;z-index:997;background:rgba(42, 47, 61, 0.05);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 1px 8px rgba(0, 0, 0, 0.05);transition:all 0.3s ease-in-out;padding:15px 0;}
+#header{position:fixed;top:0;left:0;right:0;z-index:997;background:rgba(42, 47, 61, 0.05);-webkit-backdrop-filter:blur(1px);backdrop-filter:blur(1px);box-shadow:0 1px 8px rgba(0, 0, 0, 0.05);transition:all 0.3s ease-in-out;padding:15px 0;}
 #header.header-scrolled{background:rgba(42, 47, 61, 0.2);box-shadow:0 3px 15px rgba(0, 0, 0, 0.15);padding:12px 0;}
 .logo{font-weight:700;letter-spacing:0.5px;}
 .logo a{color:var(--heading-color);font-size:26px;transition:var(--transition);}
