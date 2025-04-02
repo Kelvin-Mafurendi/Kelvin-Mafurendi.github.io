@@ -316,26 +316,40 @@ body.mobile-nav-active .navbar ul { /* Use .navbar ul here */
 # Hero Section
 --------------------------------------------------------------*/
 #hero {
-  /* Background image setup remains the same */
   width: 100%;
-  height: 100vh;
+  min-height: 100vh; /* Use min-height to ensure it covers viewport */
   background: url('../img/hero-bg.jpg') center center no-repeat; /* REPLACE with your image */
+  /* You might experiment with background-position: center top; if needed */
+  /* background-position: center top; */
   background-size: cover;
+  background-attachment: fixed; /* Add parallax-like effect */
   position: relative;
-  display: flex;
-  align-items: center;
+  display: flex; /* Keep flex */
+  align-items: center; /* Keep vertical center alignment */
   justify-content: center;
+  padding: 0; /* Remove default padding if any */
 }
 
 #hero:before {
   content: "";
-  /* Darker Gradient Overlay */
-  background: linear-gradient(to bottom, rgba(26, 29, 36, 0.7), rgba(42, 47, 61, 0.9));
+  /* Adjust alpha values (last number) - e.g., 0.4 and 0.6 */
+  background: linear-gradient(to bottom, rgba(26, 29, 36, 0.4), rgba(42, 47, 61, 0.6));
   position: absolute;
   inset: 0;
 }
 
-#hero .hero-container { z-index: 2; text-align: center; padding: 0 15px; position: relative;}
+#hero .hero-container {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  width: 100%; /* Ensure it spans width */
+  max-width: 900px; /* Optional: Limit content width */
+  padding: 0 15px;
+   /* >> ADD PADDING-TOP: Adjust value based on your header height + desired space */
+   /* Header height (scrolled/unscrolled avg ~60-80px) + ~40px margin = ~100-120px */
+  padding-top: 120px;
+  padding-bottom: 80px; /* Add some bottom padding too */
+}
 
 #hero h1 {
   color: var(--white); /* Ensure pure white */
