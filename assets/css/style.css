@@ -124,15 +124,15 @@ h6 {
   left: 0;
   right: 0;
   z-index: 997;
-  background: rgba(42, 47, 61, 0.001); /* <<< EXTREMELY LOW alpha */
+  background: rgba(42, 47, 61, 0.000); /* <<< EXTREMELY LOW alpha */
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05); /* Very subtle shadow */
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.0); /* Very subtle shadow */
   transition: all 0.3s ease-in-out;
   padding: 15px 0;
 }
 #header.header-scrolled {
-  background: rgba(42, 47, 61, 0.01); /* <<< STILL VERY LOW alpha */
+  background: rgba(42, 47, 61, 0.5); /* <<< STILL VERY LOW alpha */
   box-shadow: 0 3px 15px rgba(0, 0, 0, 0.15); /* Slightly more shadow */
   padding: 12px 0;
 }
