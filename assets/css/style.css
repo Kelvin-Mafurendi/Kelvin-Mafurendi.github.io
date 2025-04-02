@@ -124,10 +124,10 @@ h6 {
   left: 0;
   right: 0;
   z-index: 997;
-  background: rgba(42, 47, 61, 0.000); /* <<< EXTREMELY LOW alpha */
-  -webkit-backdrop-filter: blur(0px);
+  background: rgba(42, 47, 61, 0.05); /* <<< EXTREMELY LOW alpha */
+  -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(1px);
-  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.0); /* Very subtle shadow */
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.15); /* Very subtle shadow */
   transition: all 0.3s ease-in-out;
   padding: 15px 0;
 }
