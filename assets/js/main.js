@@ -1,5 +1,5 @@
 /**
-* Template Name: Spectra Virtual Labs Enhanced - main.js
+* Template Name: Spectra Virtual Labs Enhanced - main.js v1.1
 * Based on DevFolio, Modified by Kelvin Mafurendi & AI Assistant
 * License: --- (Update if you have one)
 */
@@ -56,7 +56,6 @@
       }
     })
   }
-  // Run on load and scroll
   window.addEventListener('load', navbarlinksActive);
   onscroll(document, navbarlinksActive);
 
@@ -66,14 +65,9 @@
   const scrollto = (el) => {
     let header = select('#header');
     let offset = header.offsetHeight;
-
-     // Adjust offset calculation if header height changes on scroll
      if (!header.classList.contains('header-scrolled')) {
-        // Example: Adjust by difference in padding/height
-        // Check your CSS for exact values if needed. Let's assume 8px difference.
-        offset -= 8;
+        offset -= 8; // Adjust as needed
      }
-
     let elementPos = select(el).offsetTop;
     window.scrollTo({
       top: elementPos - offset,
@@ -111,7 +105,6 @@
     }
     window.addEventListener('load', toggleBacktotop);
     onscroll(document, toggleBacktotop);
-    // Scroll to top when clicked
     on('click', '.back-to-top', function(e) {
         e.preventDefault();
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -119,7 +112,7 @@
   }
 
   /**
-   * Mobile nav toggle - Use body class for overlay effect
+   * Mobile nav toggle
    */
   on('click', '.mobile-nav-toggle', function(e) {
     select('body').classList.toggle('mobile-nav-active');
@@ -128,13 +121,11 @@
   });
 
   /**
-   * Scrool with ofset on links with a class name .scrollto
-   * Close mobile nav on click
+   * Scroll with offset on links with a class name .scrollto + Close mobile nav
    */
   on('click', '.scrollto', function(e) {
     if (select(this.hash)) {
       e.preventDefault();
-
       let body = select('body');
       if (body.classList.contains('mobile-nav-active')) {
         body.classList.remove('mobile-nav-active');
@@ -146,192 +137,155 @@
     }
   }, true);
 
-  /**
-   * Scroll with ofset on page load with hash links in the url
-   */
-   window.addEventListener('load', () => { // Needs to run after scrollto function is defined
-       if (window.location.hash) {
-           if (select(window.location.hash)) {
-               scrollto(window.location.hash);
-           }
-       }
-   });
-
    // ----------------------------------------------------------
-   // ------------- PRELOADER REMOVAL (IMPORTANT) -------------
+   // ------------- PRELOADER REMOVAL -------------
    // ----------------------------------------------------------
    let preloader = select('#preloader');
    if (preloader) {
        window.addEventListener('load', () => {
+           console.log("Window fully loaded. Removing preloader."); // Debug log
            preloader.remove();
        });
+   } else {
+       console.warn("Preloader element not found.");
    }
    // ----------------------------------------------------------
 
 
   /**
-   * ALL LIBRARY INITIALIZATIONS THAT DEPEND ON DOM/ASSETS BEING READY
-   * Place inside window.load listener
+   * Run functions after window is fully loaded
    */
   window.addEventListener('load', () => {
+     console.log("Executing functions inside window.load..."); // Debug log
 
     /**
-     * Hero type effect (Initialize after window load)
+     * Handle hash links on page load
      */
-    const typedElement = select('.typed'); // Get the element
+    if (window.location.hash) {
+        if (select(window.location.hash)) {
+            console.log(`Scrolling to hash: ${window.location.hash}`); // Debug log
+            scrollto(window.location.hash);
+        }
+    }
+
+    /**
+     * Hero type effect Debugging
+     */
+    const typedElement = select('.typed');
+    console.log("Typed Element Selected:", typedElement); // Debug log
     if (typedElement) {
       let typed_strings = typedElement.getAttribute('data-typed-items');
-      if (typed_strings) { // Check if the attribute exists and is not empty
-         typed_strings = typed_strings.split(','); // Split into an array
+      console.log("Typed Items Attribute:", typed_strings); // Debug log
+      if (typed_strings) {
+         typed_strings = typed_strings.split(',');
+         console.log("Typed Strings Array:", typed_strings); // Debug log
          try {
-            // Check if Typed constructor is available
             if (typeof Typed === 'undefined') {
-                console.error('Typed.js library is not loaded.');
+                console.error('Typed.js library is NOT loaded.');
             } else {
-                new Typed('.typed', { // Use the selector string for Typed constructor
+                console.log('Typed.js library is loaded. Initializing...'); // Debug log
+                new Typed('.typed', {
                   strings: typed_strings,
                   loop: true,
                   typeSpeed: 100,
                   backSpeed: 50,
                   backDelay: 2000
                 });
+                console.log("Typed.js Initialized Successfully."); // Debug log
             }
          } catch (e) {
-            console.error("Error initializing Typed.js:", e);
+            console.error("Error during Typed.js initialization:", e);
          }
       } else {
           console.warn("Typed element found, but 'data-typed-items' attribute is missing or empty.");
       }
     } // End if(typedElement)
 
-    /**
-     * Initialize Isotope for Projects
-     */
+    /** Initialize Isotope for Projects */
     let projectsContainer = select('.projects-container');
-    if (projectsContainer) {
-      try {
-          let projectsIsotope = new Isotope(projectsContainer, {
-            itemSelector: '.projects-item',
-            layoutMode: 'fitRows' // or 'masonry'
-          });
-          let projectsFilters = select('#projects-filters li', true);
-          on('click', '#projects-filters li', function(e) {
-            e.preventDefault();
-            projectsFilters.forEach(el => el.classList.remove('filter-active'));
-            this.classList.add('filter-active');
-            projectsIsotope.arrange({ filter: this.getAttribute('data-filter') });
-            if (typeof AOS !== 'undefined') AOS.refresh(); // Refresh AOS
-          }, true);
-      } catch (e) {
-          console.error("Error initializing Projects Isotope:", e);
-      }
-    } // End if(projectsContainer)
-
-    /**
-     * Initialize Isotope for Photography
-     */
+    if (projectsContainer) { /* ... Isotope code from previous response ... */ try { let projectsIsotope = new Isotope(projectsContainer, { itemSelector: '.projects-item', layoutMode: 'fitRows' }); let projectsFilters = select('#projects-filters li', true); on('click', '#projects-filters li', function(e) { e.preventDefault(); projectsFilters.forEach(el => el.classList.remove('filter-active')); this.classList.add('filter-active'); projectsIsotope.arrange({ filter: this.getAttribute('data-filter') }); if (typeof AOS !== 'undefined') AOS.refresh(); }, true); } catch (e) { console.error("Error initializing Projects Isotope:", e); } }
+    /** Initialize Isotope for Photography */
     let photographyContainer = select('.photography-container');
-    if (photographyContainer) {
-       try {
-          let photographyIsotope = new Isotope(photographyContainer, {
-            itemSelector: '.photography-item',
-            layoutMode: 'masonry' // Masonry often better for images
-          });
-          let photographyFilters = select('#photography-filters li', true);
-          on('click', '#photography-filters li', function(e) {
-            e.preventDefault();
-            photographyFilters.forEach(el => el.classList.remove('filter-active'));
-            this.classList.add('filter-active');
-            photographyIsotope.arrange({ filter: this.getAttribute('data-filter') });
-            if (typeof AOS !== 'undefined') AOS.refresh();
-          }, true);
-       } catch (e) {
-          console.error("Error initializing Photography Isotope:", e);
-       }
-    } // End if(photographyContainer)
-
-    /**
-     * Initialize Isotope for Writings
-     */
+    if (photographyContainer) { /* ... Isotope code from previous response ... */ try { let photographyIsotope = new Isotope(photographyContainer, { itemSelector: '.photography-item', layoutMode: 'masonry' }); let photographyFilters = select('#photography-filters li', true); on('click', '#photography-filters li', function(e) { e.preventDefault(); photographyFilters.forEach(el => el.classList.remove('filter-active')); this.classList.add('filter-active'); photographyIsotope.arrange({ filter: this.getAttribute('data-filter') }); if (typeof AOS !== 'undefined') AOS.refresh(); }, true); } catch (e) { console.error("Error initializing Photography Isotope:", e); } }
+    /** Initialize Isotope for Writings */
     let writingsContainer = select('.writings-container');
-    if (writingsContainer) {
-        try {
-            let writingsIsotope = new Isotope(writingsContainer, {
-                itemSelector: '.writings-item',
-                layoutMode: 'fitRows'
-            });
-            let writingsFilters = select('#writings-filters li', true);
-            on('click', '#writings-filters li', function (e) {
-                e.preventDefault();
-                writingsFilters.forEach(el => el.classList.remove('filter-active'));
-                this.classList.add('filter-active');
-                writingsIsotope.arrange({ filter: this.getAttribute('data-filter') });
-                if (typeof AOS !== 'undefined') AOS.refresh();
-            }, true);
-        } catch(e) {
-            console.error("Error initializing Writings Isotope:", e);
-        }
-    } // End if(writingsContainer)
+    if (writingsContainer) { /* ... Isotope code from previous response ... */ try { let writingsIsotope = new Isotope(writingsContainer, { itemSelector: '.writings-item', layoutMode: 'fitRows' }); let writingsFilters = select('#writings-filters li', true); on('click', '#writings-filters li', function (e) { e.preventDefault(); writingsFilters.forEach(el => el.classList.remove('filter-active')); this.classList.add('filter-active'); writingsIsotope.arrange({ filter: this.getAttribute('data-filter') }); if (typeof AOS !== 'undefined') AOS.refresh(); }, true); } catch(e) { console.error("Error initializing Writings Isotope:", e); } }
 
-    /**
-     * Initialize GLightbox
-     */
-     try {
-         if (typeof GLightbox === 'undefined') {
-             console.error('GLightbox library is not loaded.');
-         } else {
-            const photographyLightboxInstance = GLightbox({
-                 selector: '.photography-lightbox'
-            });
-         }
-     } catch (e) {
-         console.error("Error initializing GLightbox:", e);
-     }
+    /** Initialize GLightbox */
+    try { if (typeof GLightbox === 'undefined') { console.error('GLightbox library is not loaded.'); } else { const photographyLightboxInstance = GLightbox({ selector: '.photography-lightbox' }); } } catch (e) { console.error("Error initializing GLightbox:", e); }
 
-    /**
-     * Initialize AOS (Animation on Scroll)
-     */
+    /** Initialize AOS */
     if (typeof AOS !== 'undefined') {
        try {
           AOS.init({
              duration: 800,
              easing: 'ease-in-out',
-             once: true,
+             once: false, // <<< CHANGED TO false to allow repeat animations
              mirror: false,
              anchorPlacement: 'top-bottom'
            });
-           console.log("AOS Initialized"); // Add console log for confirmation
+           console.log("AOS Initialized (once: false)."); // Debug log
        } catch (e) {
            console.error("Error initializing AOS:", e);
        }
     } else {
-       console.warn("AOS library is not loaded or initialized before this script ran inside window.load.");
+       console.warn("AOS library is not loaded.");
     }
+
+    /** Initialize Swiper for Certificates - NEW */
+    try {
+        if (typeof Swiper === 'undefined') {
+            console.error('Swiper library is not loaded.');
+        } else {
+            new Swiper('.certificates-slider', { // Use the new class we'll add to HTML
+                speed: 600,
+                loop: false, // Usually false for content carousels unless very few items
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: true, // Stop autoplay if user interacts
+                },
+                slidesPerView: 'auto', // Let CSS/breakpoints determine slides per view
+                // Responsive breakpoints
+                breakpoints: {
+                  // when window width is >= 320px
+                  320: {
+                    slidesPerView: 1,
+                    spaceBetween: 20
+                  },
+                  // when window width is >= 768px
+                  768: {
+                    slidesPerView: 2,
+                    spaceBetween: 30
+                  },
+                  // when window width is >= 992px
+                  992: {
+                    slidesPerView: 3,
+                    spaceBetween: 30
+                  }
+                },
+                // Optional: Add pagination and navigation
+                 pagination: {
+                   el: '.swiper-pagination',
+                   clickable: true,
+                 },
+                 navigation: {
+                   nextEl: '.swiper-button-next',
+                   prevEl: '.swiper-button-prev',
+                 },
+            });
+            console.log("Swiper Initialized for Certificates.");
+        }
+    } catch (e) {
+        console.error("Error initializing Swiper:", e);
+    }
+
 
   }); // <<<--- END OF THE window.load LISTENER BLOCK
 
 
-  /**
-   * Skills animation using Intersection Observer
-   * (This logic is fine outside window.load)
-   */
+  /** Skills animation using Intersection Observer (Fine outside window.load) */
   const skillsContent = select('#skills .skills-content');
-  if (skillsContent) {
-      const skillsObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach(entry => {
-          if (entry.isIntersecting) {
-              select('.progress .progress-bar', true).forEach(bar => {
-                    bar.style.width = bar.getAttribute('aria-valuenow') + '%';
-                });
-              observer.unobserve(entry.target); // Animate only once
-          }
-      });
-      }, { threshold: 0.3 }); // Trigger when 30% visible
+  if (skillsContent) { /* ... Skills observer code ... */ const skillsObserver = new IntersectionObserver((entries, observer) => { entries.forEach(entry => { if (entry.isIntersecting) { select('.progress .progress-bar', true).forEach(bar => { bar.style.width = bar.getAttribute('aria-valuenow') + '%'; }); observer.unobserve(entry.target); } }); }, { threshold: 0.3 }); skillsObserver.observe(skillsContent); }
 
-      skillsObserver.observe(skillsContent);
-  }
-
-  // REMOVED: Swiper initializations (testimonials, portfolio-details) - Not in your HTML
-  // REMOVED: PureCounter() initialization - Replaced by IntersectionObserver logic
 
 })() // End of IIFE
