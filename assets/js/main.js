@@ -1,7 +1,7 @@
 /**
 * Template Name: Spectra Virtual Labs Enhanced - main.js
 * Based on DevFolio, Modified by Kelvin Mafurendi & AI Assistant
-
+* License: --- (Update if you have one)
 */
 (function() {
   "use strict";
