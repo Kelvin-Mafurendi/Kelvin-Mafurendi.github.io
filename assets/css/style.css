@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------
-# Dark Theme for Spectra Virtual Labs v1.3 (AOS repeat, Nav Transparency, Cert Carousel)
+# Dark Theme for Spectra Virtual Labs v1.4 (Max Nav Transparency + Typed Debug)
 --------------------------------------------------------------*/
 
 /*--------------------------------------------------------------
@@ -25,8 +25,6 @@
   /* Shadows - Use subtle light glows or darker shadows */
   --box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3); /* Darker shadow */
   --box-shadow-hover: 0 12px 30px rgba(0, 0, 0, 0.4);
-  /* Optional: Light glow effect instead of shadow */
-  /* --box-shadow-light: 0 0 15px rgba(var(--primary-rgb), 0.1); */
 
   --border-radius: 10px;
   --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
@@ -39,12 +37,13 @@
   --swiper-theme-color: var(--primary-color); /* Use primary color for Swiper elements */
   --swiper-navigation-color: var(--white);
   --swiper-pagination-color: var(--primary-color);
+  --swiper-navigation-size: 22px; /* Slightly smaller arrows maybe? */
 }
 
 body {
   font-family: 'Poppins', sans-serif;
   color: var(--text-color);
-  background-color: var(--dark-bg); /* Set dark background */
+  background-color: var(--dark-bg);
   overflow-x: hidden;
 }
 body.mobile-nav-active {
@@ -65,17 +64,68 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--heading-color);
 }
 
-/* Preloader, Back to top remain the same as v1.2 */
-#preloader { /* ... */  position: fixed; inset: 0; z-index: 9999; overflow: hidden; background: var(--dark-bg); }
-#preloader:before { content: ""; position: fixed; top: calc(50% - 30px); left: calc(50% - 30px); border: 6px solid var(--primary-color); border-top-color: var(--dark-bg-secondary); border-bottom-color: var(--dark-bg-secondary); border-radius: 50%; width: 60px; height: 60px; animation: animate-preloader 1s linear infinite; }
-@keyframes animate-preloader { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-.back-to-top { position: fixed; visibility: hidden; opacity: 0; right: 20px; bottom: 20px; z-index: 99; background: var(--primary-color); width: 44px; height: 44px; border-radius: var(--border-radius); transition: all 0.4s; box-shadow: 0 4px 15px rgba(0,0,0, 0.3); }
-.back-to-top i { font-size: 24px; color: var(--white); line-height: 0; }
-.back-to-top:hover { background: var(--secondary-color); color: var(--dark-bg); transform: translateY(-4px); }
-.back-to-top.active { visibility: visible; opacity: 1; }
+/*--------------------------------------------------------------
+# Preloader
+--------------------------------------------------------------*/
+#preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  overflow: hidden;
+  background: var(--dark-bg);
+}
+#preloader:before {
+  content: "";
+  position: fixed;
+  top: calc(50% - 30px);
+  left: calc(50% - 30px);
+  border: 6px solid var(--primary-color);
+  border-top-color: var(--dark-bg-secondary);
+  border-bottom-color: var(--dark-bg-secondary);
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: animate-preloader 1s linear infinite;
+}
+@keyframes animate-preloader {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 
 /*--------------------------------------------------------------
-# Header - ADJUSTED TRANSPARENCY
+# Back to top button
+--------------------------------------------------------------*/
+.back-to-top {
+  position: fixed;
+  visibility: hidden;
+  opacity: 0;
+  right: 20px;
+  bottom: 20px;
+  z-index: 99;
+  background: var(--primary-color);
+  width: 44px;
+  height: 44px;
+  border-radius: var(--border-radius);
+  transition: all 0.4s;
+  box-shadow: 0 4px 15px rgba(0,0,0, 0.3);
+}
+.back-to-top i {
+  font-size: 24px;
+  color: var(--white);
+  line-height: 0;
+}
+.back-to-top:hover {
+  background: var(--secondary-color);
+  color: var(--dark-bg);
+  transform: translateY(-4px);
+}
+.back-to-top.active {
+  visibility: visible;
+  opacity: 1;
+}
+
+/*--------------------------------------------------------------
+# Header - MAXIMUM TRANSPARENCY
 --------------------------------------------------------------*/
 #header {
   position: fixed;
@@ -83,27 +133,31 @@ h1, h2, h3, h4, h5, h6 {
   left: 0;
   right: 0;
   z-index: 997;
-  /* MORE transparent dark bg with blur */
-  background: rgba(42, 47, 61, 0.6); /* <-- ADJUSTED alpha (e.g., 0.6) */
-  -webkit-backdrop-filter: blur(12px); /* Slightly more blur? */
-  backdrop-filter: blur(12px);
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+  /* VERY transparent dark bg with blur */
+  background: rgba(42, 47, 61, 0.1); /* <<< Alpha 0.1 */
+  -webkit-backdrop-filter: blur(12px); /* Safari prefix */
+  backdrop-filter: blur(12px); /* Standard */
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1); /* Very subtle shadow */
   transition: all 0.3s ease-in-out;
   padding: 15px 0;
 }
 
 #header.header-scrolled {
-  background: rgba(42, 47, 61, 0.85); /* <-- ADJUSTED alpha (e.g., 0.85) */
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  /* Still very transparent, slightly more opaque */
+  background: rgba(42, 47, 61, 0.3); /* <<< Alpha 0.3 */
+  box-shadow: 0 3px 15px rgba(0, 0, 0, 0.2); /* Slightly more shadow */
   padding: 12px 0;
 }
-
+/* Logo Styles */
 .logo { font-weight: 700; letter-spacing: 0.5px; }
 .logo a { color: var(--heading-color); font-size: 26px; transition: var(--transition); }
 .logo a:hover { color: var(--primary-color); }
 
-/* Navigation Menu styles remain the same as v1.2 */
+/*--------------------------------------------------------------
+# Navigation Menu
+--------------------------------------------------------------*/
 .navbar { padding: 0; }
+/* Desktop Nav */
 .navbar ul { margin: 0; padding: 0; display: flex; list-style: none; align-items: center; }
 .navbar li { position: relative; }
 .navbar a, .navbar a:focus { display: flex; align-items: center; justify-content: space-between; padding: 10px 0 10px 28px; font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 600; color: var(--text-color); white-space: nowrap; transition: var(--transition); }
@@ -111,59 +165,31 @@ h1, h2, h3, h4, h5, h6 {
 .navbar a::before { content: ""; position: absolute; width: 0; height: 2px; bottom: -5px; left: 50%; transform: translateX(-50%); background: var(--gradient); visibility: hidden; transition: all 0.3s ease-in-out 0s; }
 .navbar a:hover, .navbar .active, .navbar li:hover > a { color: var(--white); }
 .navbar a:hover::before, .navbar li:hover > a::before, .navbar .active::before { visibility: visible; width: 60%; }
+/* Mobile Nav Toggle */
 .mobile-nav-toggle { color: var(--heading-color); font-size: 28px; cursor: pointer; display: none; line-height: 0; transition: 0.5s; }
+/* Mobile Nav Container (when toggled) */
 .navbar-mobile ul { display: none; position: absolute; top: 55px; right: 15px; bottom: 15px; left: 15px; padding: 10px 0; border-radius: var(--border-radius); background-color: var(--dark-card-bg); overflow-y: auto; transition: 0.3s; z-index: 999; box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.4); }
 .navbar-mobile a, .navbar-mobile a:focus { padding: 10px 20px; font-size: 15px; color: var(--text-color); }
 .navbar-mobile a:hover, .navbar-mobile .active, .navbar-mobile li:hover > a { color: var(--white); }
 .navbar-mobile a::before { display: none; }
+/* Mobile Breakpoint */
 @media (max-width: 991px) { .mobile-nav-toggle { display: block; } .navbar ul { display: none; } }
+/* JS Toggled Body Class */
 body.mobile-nav-active { overflow: hidden; }
 body.mobile-nav-active .mobile-nav-toggle { color: var(--white); }
 body.mobile-nav-active .navbar ul { display: block; }
 
 /*--------------------------------------------------------------
-# Hero Section - ADJUSTED PADDING & OVERLAY
+# Hero Section
 --------------------------------------------------------------*/
-#hero {
-  width: 100%;
-  min-height: 100vh;
-  /* REPLACE with your actual image */
-  background: url('../img/hero-bg.jpg') center center no-repeat;
-  /* Try background-position: center top if needed */
-   background-position: center center;
-  background-size: cover;
-  background-attachment: fixed; /* Optional parallax */
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-}
-
-#hero:before {
-  content: "";
-  /* SUBTLER dark tint - Option B */
-  background: rgba(26, 29, 36, 0.2); /* <<< ADJUST alpha (0.2) as needed */
-  position: absolute;
-  inset: 0;
-}
-
-#hero .hero-container {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  width: 100%;
-  max-width: 900px;
-  padding: 0 15px;
-  /* >> INCREASED padding-top << */
-  padding-top: 150px; /* <<< ADJUST THIS VALUE (try 140, 150, 160) */
-  padding-bottom: 80px;
-}
-
-/* Hero h1, p, typed-cursor, social-links, scroll-down styles remain the same as v1.2 */
+#hero { width: 100%; min-height: 100vh; /* REPLACE BG Image */ background: url('../img/hero-bg.jpg') center center no-repeat; background-position: center center; background-size: cover; background-attachment: fixed; position: relative; display: flex; align-items: center; justify-content: center; padding: 0; }
+#hero:before { content: ""; background: rgba(26, 29, 36, 0.2); position: absolute; inset: 0; } /* Subtle Overlay */
+#hero .hero-container { position: relative; z-index: 2; text-align: center; width: 100%; max-width: 900px; padding: 0 15px; padding-top: 150px; padding-bottom: 80px; } /* Padding Top to clear header */
 #hero h1 { color: var(--white); text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); margin: 0 0 20px 0; font-size: calc(2rem + 3.5vw); font-weight: 700; line-height: 1.2; }
 #hero p { color: rgba(255, 255, 255, 0.9); margin-bottom: 30px; font-size: calc(1.1rem + 0.8vw); font-weight: 300; }
-#hero .typed-cursor { color: rgba(255, 255, 255, 0.8); font-size: calc(1.1rem + 0.8vw); }
+/* CSS Rule to FORCE Typed P visibility (for debugging) */
+#hero p { opacity: 1 !important; visibility: visible !important; min-height: 30px; /* Ensure it has height */ position: relative; /* Standard positioning */ }
+#hero .typed-cursor { color: rgba(255, 255, 255, 0.8); font-size: calc(1.1rem + 0.8vw); opacity: 1 !important; /* Make sure cursor visible */ }
 #hero .social-links { margin-top: 30px; }
 #hero .social-links a { font-size: 24px; display: inline-block; color: rgba(255, 255, 255, 0.8); line-height: 1; margin: 0 12px; transition: var(--transition); }
 #hero .social-links a:hover { color: var(--secondary-color); transform: translateY(-5px) scale(1.15); }
@@ -171,8 +197,9 @@ body.mobile-nav-active .navbar ul { display: block; }
 #hero .scroll-down a { display: inline-block; color: rgba(255, 255, 255, 0.7); font-size: 32px; transition: var(--transition); }
 #hero .scroll-down a:hover { color: var(--white); transform: translateY(10px); }
 
-
-/* Sections General styles remain the same as v1.2 */
+/*--------------------------------------------------------------
+# Sections General
+--------------------------------------------------------------*/
 section { padding: 80px 0; overflow: hidden; }
 .section-title { text-align: center; padding-bottom: 40px; position: relative; }
 .section-title h2 { font-size: 36px; font-weight: 700; margin-bottom: 20px; padding-bottom: 20px; position: relative; color: var(--heading-color); }
@@ -181,7 +208,9 @@ section { padding: 80px 0; overflow: hidden; }
 .btn-primary { font-family: "Montserrat", sans-serif; font-weight: 600; font-size: 15px; letter-spacing: 0.5px; display: inline-block; padding: 12px 35px; border-radius: 50px; transition: var(--transition); line-height: 1; color: var(--dark-bg); border: none; background: var(--gradient); box-shadow: 0 5px 15px rgba(0,0,0, 0.2); }
 .btn-primary:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0, 0.3); filter: brightness(1.1); color: var(--dark-bg); }
 
-/* About Section styles remain the same as v1.2 */
+/*--------------------------------------------------------------
+# About Section
+--------------------------------------------------------------*/
 .about { background-color: var(--dark-bg-secondary); }
 .about-img { border-radius: var(--border-radius); overflow: hidden; margin-bottom: 30px; box-shadow: var(--box-shadow); position: relative; }
 .about-img img { width: 100%; transition: var(--transition); }
@@ -195,18 +224,21 @@ section { padding: 80px 0; overflow: hidden; }
 .about-content h3 { font-size: 26px; font-weight: 700; color: var(--primary-color); margin-bottom: 15px; }
 .about-content p { margin-bottom: 20px; line-height: 1.7; color: var(--text-color);}
 .about-content p.fst-italic { color: var(--gray); }
+/* About Tabs */
 .tabs-container { margin-top: 30px; }
 .nav-tabs { border-bottom: 1px solid rgba(132, 146, 166, 0.3); margin-bottom: 25px; }
 .nav-tabs .nav-item { margin-bottom: -1px; }
 .nav-tabs .nav-link { border: none; border-bottom: 3px solid transparent; color: var(--gray); font-weight: 600; padding: 12px 25px; border-radius: 0; position: relative; margin-right: 5px; transition: var(--transition); }
 .nav-tabs .nav-link:hover { color: var(--secondary-color); }
 .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link { color: var(--white); background: transparent; border-color: var(--primary-color); }
+/* Timeline */
 .timeline { position: relative; padding: 20px 0 10px 15px; list-style: none; }
 .timeline::before { content: ''; position: absolute; width: 2px; background-color: rgba(132, 146, 166, 0.2); top: 0; bottom: 0; left: 15px; margin-left: -1px; }
 .timeline-item { position: relative; margin-bottom: 35px; padding-left: 40px; }
 .timeline-dot { position: absolute; width: 20px; height: 20px; left: 5px; top: 3px; background: var(--dark-bg-secondary); border: 4px solid var(--primary-color); border-radius: 50%; z-index: 1; box-shadow: 0 0 0 4px var(--dark-bg-secondary); }
 .timeline-content h4 { font-size: 18px; margin-bottom: 8px; color: var(--heading-color); font-weight: 600; }
 .timeline-content p { margin: 0; color: var(--text-color); font-size: 15px; line-height: 1.6; }
+/* Skills */
 .skills-content { padding: 15px 0; }
 .skill-category { margin-bottom: 30px; }
 .skill-category h4 { font-size: 18px; margin-bottom: 20px; color: var(--heading-color); font-weight: 600; position: relative; padding-bottom: 10px; }
@@ -215,6 +247,7 @@ section { padding: 80px 0; overflow: hidden; }
 .skill-item span { display: block; margin-bottom: 8px; font-weight: 500; font-size: 15px; color: var(--text-color); }
 .progress { height: 12px; background-color: rgba(132, 146, 166, 0.2); border-radius: var(--border-radius); overflow: hidden; }
 .progress-bar { background: var(--gradient); border-radius: var(--border-radius); position: relative; color: var(--dark-bg); font-weight: 600; font-size: 10px; line-height: 12px; text-align: center; width: 0; transition: width 1s ease-in-out; }
+/* Education */
 .education-content { padding: 15px 0; }
 .education-item { display: flex; margin-bottom: 35px; align-items: flex-start; }
 .education-icon { flex: 0 0 50px; height: 50px; border-radius: 50%; background-color: rgba(var(--primary-rgb), 0.1); display: flex; align-items: center; justify-content: center; margin-right: 25px; }
@@ -227,13 +260,17 @@ section { padding: 80px 0; overflow: hidden; }
 .certifications-list li { padding: 6px 0; color: var(--text-color); position: relative; padding-left: 20px; }
 .certifications-list li::before { content: "✓"; position: absolute; left: 0; top: 6px; font-weight: 600; color: var(--primary-color); }
 
-/* Portfolio Filters remain the same as v1.2 */
+/*--------------------------------------------------------------
+# Portfolio Sections Filters
+--------------------------------------------------------------*/
 .projects-filters ul, .photography-filters ul, .writings-filters ul { padding: 0; margin: 0 0 35px 0; text-align: center; list-style: none; }
 .projects-filters li, .photography-filters li, .writings-filters li { cursor: pointer; display: inline-block; padding: 8px 20px; font-size: 14px; font-weight: 600; line-height: 1; text-transform: uppercase; margin: 0 4px 10px 4px; transition: var(--transition); border-radius: 50px; color: var(--text-color); border: 1px solid rgba(132, 146, 166, 0.3); }
 .projects-filters li:hover, .photography-filters li:hover, .writings-filters li:hover { color: var(--primary-color); background-color: rgba(var(--primary-rgb), 0.08); border-color: rgba(var(--primary-rgb), 0.2); }
 .projects-filters li.filter-active, .photography-filters li.filter-active, .writings-filters li.filter-active { color: var(--dark-bg); background: var(--gradient); border-color: transparent; }
 
-/* Portfolio Item Cards remain the same as v1.2 */
+/*--------------------------------------------------------------
+# Portfolio Item Common Card Styles
+--------------------------------------------------------------*/
 .projects-item, .photography-item, .writings-item { margin-bottom: 30px; }
 .project-card, .photography-card, .writing-card { background: var(--dark-card-bg); border: 1px solid rgba(132, 146, 166, 0.1); border-radius: var(--border-radius); box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25); transition: var(--transition); overflow: hidden; height: 100%; display: flex; flex-direction: column; }
 .project-card:hover, .photography-card:hover, .writing-card:hover { transform: translateY(-8px); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); border-color: rgba(var(--primary-rgb), 0.3); }
@@ -244,7 +281,7 @@ section { padding: 80px 0; overflow: hidden; }
 .photography-card .img-fluid { height: 280px; }
 .project-card:hover img, .writing-card:hover img, .photography-card:hover .img-fluid { transform: scale(1.08); }
 
-/* Projects Section Specifics remain the same as v1.2 */
+/* Projects Section Specifics */
 .project-card .project-img { border-radius: var(--border-radius) var(--border-radius) 0 0; }
 .project-overlay { background: rgba(26, 29, 36, 0.7); position: absolute; inset: 0; opacity: 0; transition: var(--transition); display: flex; align-items: center; justify-content: center; border-radius: var(--border-radius) var(--border-radius) 0 0; }
 .project-card:hover .project-overlay { opacity: 1; }
@@ -257,73 +294,16 @@ section { padding: 80px 0; overflow: hidden; }
 .project-tags span { background: rgba(var(--secondary-rgb), 0.15); color: var(--secondary-color); padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; }
 
 /*--------------------------------------------------------------
-# Certificates Section - ADDED Swiper Styles
+# Certificates Section - Carousel Styles
 --------------------------------------------------------------*/
-.certificates { background-color: var(--dark-bg); overflow: hidden; /* Prevent horizontal scrollbar issues */}
-
-/* Make slides full height to match card */
-.certificates .swiper-slide {
-  height: auto;
-  display: flex; /* Use flex for consistent height */
-}
-
-/* Ensure card takes full width/height of slide */
-.certificates .certificate-card {
-   width: 100%;
-   height: 100%;
-   margin-bottom: 0; /* Remove default margin from grid */
-   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); /* Slightly less shadow than other cards maybe? */
-}
-
-/* Swiper Pagination styles */
-.certificates .swiper-pagination {
-  margin-top: 20px;
-  position: relative; /* Position below slider */
-}
-.certificates .swiper-pagination .swiper-pagination-bullet {
-  width: 12px;
-  height: 12px;
-  background-color: rgba(var(--primary-rgb), 0.3); /* Primary alpha inactive */
-  opacity: 1;
-}
-.certificates .swiper-pagination .swiper-pagination-bullet-active {
-  background-color: var(--primary-color); /* Primary color active */
-}
-
-/* Swiper Navigation Button styles */
-.certificates .swiper-button-prev,
-.certificates .swiper-button-next {
-  width: 44px;
-  height: 44px;
-  background-color: rgba(var(--white-rgb, 255, 255, 255), 0.1); /* Semi-transparent white bg */
-  border-radius: 50%;
-  color: var(--white); /* Arrow color */
-  transition: background-color 0.3s ease;
-  margin-top: -22px; /* Center vertically */
-}
-.certificates .swiper-button-prev::after,
-.certificates .swiper-button-next::after {
-  font-size: 18px; /* Arrow size */
-  font-weight: bold;
-}
-.certificates .swiper-button-prev:hover,
-.certificates .swiper-button-next:hover {
-    background-color: rgba(var(--white-rgb, 255, 255, 255), 0.2);
-}
-/* Position nav buttons slightly outside maybe? Adjust 'left' and 'right' */
-.certificates .swiper-button-prev { left: -5px; }
-.certificates .swiper-button-next { right: -5px; }
-/* Hide arrows on smaller screens maybe */
-@media (max-width: 767px) {
-    .certificates .swiper-button-prev,
-    .certificates .swiper-button-next {
-        display: none;
-    }
-}
-
-/* Remaining Certificate card inner styles */
+.certificates { background-color: var(--dark-bg); overflow: hidden; }
+/* Add some padding if buttons are positioned outside */
+.certificates .container { position: relative; padding-left: 30px; padding-right: 30px; }
+.certificates .swiper { padding-top: 10px; padding-bottom: 40px; /* Space for pagination */ }
+.certificates .swiper-slide { height: auto; display: flex; }
+.certificates .certificate-card { width: 100%; height: 100%; margin-bottom: 0; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); }
 .certificate-logo { flex: 0 0 70px; height: 70px; margin-right: 25px; display: flex; align-items: center; justify-content: center; }
-.certificate-logo img { max-width: 100%; max-height: 55px; object-fit: contain; /* filter: invert(1) brightness(2); -> Maybe needed for dark logos */ }
+.certificate-logo img { max-width: 100%; max-height: 55px; object-fit: contain; }
 .certificate-info { flex: 1; }
 .certificate-info h4 { font-size: 17px; font-weight: 600; color: var(--heading-color); margin-bottom: 5px; }
 .certificate-info p { font-size: 15px; color: var(--gray); margin-bottom: 8px; font-weight: 500; }
@@ -332,9 +312,42 @@ section { padding: 80px 0; overflow: hidden; }
 .certificate-link:hover { color: var(--primary-color); text-decoration: underline; }
 .certificate-link i { margin-left: 4px; font-size: 13px; display: inline-block; }
 
+/* Swiper Pagination & Navigation */
+.certificates .swiper-pagination { bottom: 5px !important; /* Adjust position */ margin-top: 25px; position: relative; }
+.certificates .swiper-pagination .swiper-pagination-bullet { width: 12px; height: 12px; background-color: rgba(var(--primary-rgb), 0.3); opacity: 1; }
+.certificates .swiper-pagination .swiper-pagination-bullet-active { background-color: var(--primary-color); }
+
+.certificates .swiper-button-prev,
+.certificates .swiper-button-next {
+    width: 40px; /* Smaller buttons */
+    height: 40px;
+    background-color: rgba(var(--white-rgb, 255, 255, 255), 0.08); /* Even more subtle */
+    border-radius: 50%;
+    color: var(--white);
+    transition: background-color 0.3s ease;
+    margin-top: -20px; /* Center vertically based on new size */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.certificates .swiper-button-prev::after,
+.certificates .swiper-button-next::after {
+    font-size: var(--swiper-navigation-size);
+    font-weight: bolder;
+}
+.certificates .swiper-button-prev:hover,
+.certificates .swiper-button-next:hover {
+    background-color: rgba(var(--white-rgb, 255, 255, 255), 0.15);
+}
+.certificates .swiper-button-prev { left: 0px; /* Position within padding */ }
+.certificates .swiper-button-next { right: 0px; /* Position within padding */ }
+
+@media (max-width: 767px) {
+    .certificates .container { padding-left: 15px; padding-right: 15px; }
+    .certificates .swiper-button-prev,
+    .certificates .swiper-button-next { display: none; /* Hide arrows on small screens */ }
+}
 
 /*--------------------------------------------------------------
-# Photography Section Specifics remain the same as v1.2
+# Photography Section
 --------------------------------------------------------------*/
 .photography { background-color: var(--dark-bg); }
 .photography-card { background-color: var(--dark-card-bg); border: 1px solid rgba(132, 146, 166, 0.1); box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25); }
@@ -346,7 +359,9 @@ section { padding: 80px 0; overflow: hidden; }
 .photography-info .photography-lightbox { background: rgba(var(--primary-rgb), 0.8); color: var(--white); border-radius: 50%; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; transition: var(--transition); position: absolute; top: 20px; right: 20px; font-size: 18px; z-index: 4; }
 .photography-info .photography-lightbox:hover { background: var(--primary-color); transform: scale(1.1); }
 
-/* Writings Section Specifics remain the same as v1.2 */
+/*--------------------------------------------------------------
+# Writings Section
+--------------------------------------------------------------*/
 .writings { background-color: var(--dark-bg-secondary); }
 .writing-card { border: 1px solid rgba(132, 146, 166, 0.1); }
 .writing-card:hover { border-color: rgba(var(--primary-rgb), 0.3); }
@@ -363,7 +378,9 @@ section { padding: 80px 0; overflow: hidden; }
 .writing-link i { transition: transform 0.3s ease; display: inline-block; margin-left: 3px; font-size: 13px; }
 .writing-link:hover i { transform: translateX(4px); }
 
-/* Contact Section remains the same as v1.2 */
+/*--------------------------------------------------------------
+# Contact Section
+--------------------------------------------------------------*/
 .contact { background-color: var(--dark-bg); }
 .contact-info { padding: 10px; }
 .contact-card { background: var(--dark-card-bg); border: 1px solid rgba(132, 146, 166, 0.1); border-radius: var(--border-radius); overflow: hidden; padding: 35px; box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25); margin-bottom: 30px; text-align: center; transition: var(--transition); }
@@ -385,7 +402,9 @@ textarea.form-control { height: auto; }
 .contact-form button[type="submit"] { background: var(--gradient); border: 0; padding: 12px 40px; color: var(--dark-bg); border-radius: 50px; transition: var(--transition); font-weight: 600; font-size: 16px; box-shadow: 0 5px 15px rgba(0,0,0, 0.2); }
 .contact-form button[type="submit"]:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0, 0.3); filter: brightness(1.1); }
 
-/* Footer remains the same as v1.2 */
+/*--------------------------------------------------------------
+# Footer
+--------------------------------------------------------------*/
 #footer { background: var(--dark-bg); border-top: 1px solid rgba(132, 146, 166, 0.1); color: var(--text-color); padding: 40px 0 20px 0; text-align: center; font-size: 15px; }
 .footer-info { margin-bottom: 30px; }
 .footer-info h3 { font-size: 28px; margin-bottom: 10px; color: var(--white); font-weight: 700; font-family: "Montserrat", sans-serif; }
