@@ -2,92 +2,54 @@
 # General
 --------------------------------------------------------------*/
 :root {
-  --primary-color: #6c63ff;
-  --secondary-color: #2c3e50;
-  --accent-color: #ff6b6b;
-  --light-color: #f8f9fa;
-  --dark-color: #212529;
-  --text-color: #495057;
+  --primary-color: #6a11cb; /* Slightly deeper purple */
+  --secondary-color: #2575fc; /* Vibrant blue for accents/gradients */
+  --heading-color: #2c3e50; /* Keep dark grey for headings */
+  --text-color: #5a6270; /* Slightly softer text */
+  --light-bg: #f8f9fa;
   --white: #ffffff;
-  --gray: #6c757d;
-  --gradient: linear-gradient(135deg, #6c63ff 0%, #5a4fff 100%);
-  --box-shadow: 0 5px 25px rgba(0, 0, 0, 0.1);
-  --transition: all 0.3s ease;
+  --gray: #868e96;
+  --gradient: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Softer shadow */
+  --box-shadow-hover: 0 15px 35px rgba(0, 0, 0, 0.12);
+  --border-radius: 10px; /* Consistent border radius */
+  --transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); /* Smoother transition */
 }
 
+/* Update general styles to use new variables */
 body {
-  font-family: 'Poppins', sans-serif;
   color: var(--text-color);
-  background-color: var(--white);
 }
-
 a {
   color: var(--primary-color);
-  text-decoration: none;
-  transition: var(--transition);
 }
-
 a:hover {
-  color: #8a84ff;
-  text-decoration: none;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
-}
-
-section {
-  padding: 90px 0;
-  overflow: hidden;
-}
-
-.section-title {
-  text-align: center;
-  padding-bottom: 30px;
-}
-
-.section-title h2 {
-  font-size: 32px;
-  font-weight: 700;
-  position: relative;
-  margin-bottom: 15px;
-  padding-bottom: 15px;
   color: var(--secondary-color);
 }
-
+h1, h2, h3, h4, h5, h6 {
+  color: var(--heading-color);
+  /* Maybe slightly bolder default */
+  font-weight: 700;
+}
 .section-title h2::after {
-  content: '';
-  position: absolute;
-  display: block;
-  width: 50px;
-  height: 3px;
-  background: var(--primary-color);
-  bottom: 0;
-  left: calc(50% - 25px);
+  background: var(--gradient); /* Use gradient for underline */
+  height: 4px; /* Make it slightly thicker */
 }
-
-.section-title p {
-  font-size: 18px;
-  margin-bottom: 0;
-  color: var(--gray);
-}
-
 .btn-primary {
-  background: var(--primary-color);
-  border-color: var(--primary-color);
-  padding: 10px 24px;
+  background: var(--gradient); /* Use gradient for buttons */
+  border: none;
+  padding: 12px 30px;
   border-radius: 50px;
   transition: var(--transition);
+  box-shadow: var(--box-shadow);
+  color: var(--white);
 }
-
 .btn-primary:hover {
-  background: #7e77ff;
-  border-color: #7e77ff;
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(108, 99, 255, 0.2);
+  transform: translateY(-4px);
+  box-shadow: var(--box-shadow-hover);
+  filter: brightness(1.1); /* Slight brightness increase */
+  color: var(--white);
 }
-
 /*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
