@@ -265,7 +265,7 @@ body.mobile-nav-active .navbar ul {
   width: 100%;
   min-height: 120vh;
   background: url("../img/hero-bg.jpg") center center no-repeat;
-  background-position: center center;
+  background-position: center 25%;
   background-size: contain;
   background-attachment: fixed;
   position: relative;
