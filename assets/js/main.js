@@ -1,102 +1,411 @@
 /**
-* Template Name: Spectra Virtual Labs Enhanced - main.js v1.3 (headerScrolled Fix)
+* Template Name: Spectra Virtual Labs Enhanced - main.js v1.4 (Preloader Fix)
 * Based on DevFolio, Modified by Kelvin Mafurendi & AI Assistant
 */
 (function() {
   "use strict";
 
   /* Helper Functions (select, on, onscroll) */
-  const select=(el,all=!1)=>{if(el=el.trim(),all)return[...document.querySelectorAll(el)];const t=document.querySelector(el);return t?t:null},on=(t,e,i,l=!1)=>{let s=select(e,l);s&&(l?s.forEach(l=>l.addEventListener(t,i)):s.addEventListener(t,i))},onscroll=(t,e)=>{t.addEventListener("scroll",e)};
+  const select = (el, all = false) => {
+    el = el.trim();
+    if (all) {
+      return [...document.querySelectorAll(el)];
+    }
+    return document.querySelector(el);
+  };
+  
+  const on = (type, el, listener, all = false) => {
+    let selectEl = select(el, all);
+    if (selectEl) {
+      if (all) {
+        selectEl.forEach(e => e.addEventListener(type, listener));
+      } else {
+        selectEl.addEventListener(type, listener);
+      }
+    }
+  };
+  
+  const onscroll = (el, listener) => {
+    el.addEventListener('scroll', listener);
+  };
 
   /* Navbar links active state on scroll */
-  let navbarlinks=select("#navbar .scrollto",!0),navbarlinksActive=()=>{let t=window.scrollY+200;navbarlinks.forEach(e=>{if(!e.hash)return;let i=select(e.hash);i&&(t>=i.offsetTop&&t<=i.offsetTop+i.offsetHeight?e.classList.add("active"):e.classList.remove("active"))})};window.addEventListener("load",navbarlinksActive),onscroll(document,navbarlinksActive);
+  let navbarlinks = select('#navbar .scrollto', true);
+  const navbarlinksActive = () => {
+    let position = window.scrollY + 200;
+    navbarlinks.forEach(navbarlink => {
+      if (!navbarlink.hash) return;
+      let section = select(navbarlink.hash);
+      if (!section) return;
+      if (position >= section.offsetTop && position <= (section.offsetTop + section.offsetHeight)) {
+        navbarlink.classList.add('active');
+      } else {
+        navbarlink.classList.remove('active');
+      }
+    });
+  };
+  window.addEventListener('load', navbarlinksActive);
+  onscroll(document, navbarlinksActive);
 
   /* Scrolls to an element with header offset */
-  const scrollto=t=>{let e=select("#header");if(!e)return;let i=e.offsetHeight;e.classList.contains("header-scrolled")||(i-=8);let l=select(t);l?(window.scrollTo({top:l.offsetTop-i,behavior:"smooth"})):console.warn(`Element ${t} not found for scrollto`)};
+  const scrollto = (el) => {
+    let header = select('#header');
+    if (!header) return;
+    let offset = header.offsetHeight;
+    if (!header.classList.contains('header-scrolled')) {
+      offset -= 8;
+    }
+    let elementPos = select(el).offsetTop;
+    window.scrollTo({
+      top: elementPos - offset,
+      behavior: 'smooth'
+    });
+  };
 
-  /**
-   * >>> CORRECTED: Toggle .header-scrolled class <<<
-   */
-  let selectHeader=select("#header");
+  /* Toggle .header-scrolled class */
+  let selectHeader = select('#header');
   if (selectHeader) {
-      // Define the function *first* using const
-      const headerScrolled = () => {
-          if (window.scrollY > 100) {
-              selectHeader.classList.add("header-scrolled");
-          } else {
-              selectHeader.classList.remove("header-scrolled");
-          }
-      };
-      // THEN, add the event listeners
-      window.addEventListener("load", headerScrolled);
-      onscroll(document, headerScrolled);
+    const headerScrolled = () => {
+      if (window.scrollY > 100) {
+        selectHeader.classList.add('header-scrolled');
+      } else {
+        selectHeader.classList.remove('header-scrolled');
+      }
+    };
+    window.addEventListener('load', headerScrolled);
+    onscroll(document, headerScrolled);
   }
-  // --- End Header Scrolled Correction ---
 
   /* Back to top button */
-  let backtotop=select(".back-to-top");backtotop&&(toggleBacktotop=()=>{window.scrollY>100?backtotop.classList.add("active"):backtotop.classList.remove("active")},window.addEventListener("load",toggleBacktotop),onscroll(document,toggleBacktotop),on("click",".back-to-top",function(t){t.preventDefault(),window.scrollTo({top:0,behavior:"smooth"})}));
+  let backtotop = select('.back-to-top');
+  if (backtotop) {
+    const toggleBacktotop = () => {
+      if (window.scrollY > 100) {
+        backtotop.classList.add('active');
+      } else {
+        backtotop.classList.remove('active');
+      }
+    };
+    window.addEventListener('load', toggleBacktotop);
+    onscroll(document, toggleBacktotop);
+    
+    on('click', '.back-to-top', function(e) {
+      e.preventDefault();
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  }
 
   /* Mobile nav toggle */
-  on("click",".mobile-nav-toggle",function(t){select("body").classList.toggle("mobile-nav-active"),this.classList.toggle("bi-list"),this.classList.toggle("bi-x")});
+  on('click', '.mobile-nav-toggle', function(e) {
+    select('body').classList.toggle('mobile-nav-active');
+    this.classList.toggle('bi-list');
+    this.classList.toggle('bi-x');
+  });
 
-  /* Close mobile nav on scrollto link click */
-  on("click",".scrollto",function(t){if(select(this.hash)){t.preventDefault();let e=select("body");if(e.classList.contains("mobile-nav-active")){e.classList.remove("mobile-nav-active");let i=select(".mobile-nav-toggle");i.classList.toggle("bi-list"),i.classList.toggle("bi-x")}scrollto(this.hash)}},!0);
+  /* Close mobile nav when clicking scrollto links */
+  on('click', '.scrollto', function(e) {
+    if (select(this.hash)) {
+      e.preventDefault();
+      let body = select('body');
+      if (body.classList.contains('mobile-nav-active')) {
+        body.classList.remove('mobile-nav-active');
+        let navbarToggle = select('.mobile-nav-toggle');
+        navbarToggle.classList.toggle('bi-list');
+        navbarToggle.classList.toggle('bi-x');
+      }
+      scrollto(this.hash);
+    }
+  }, true);
 
-   /* --- Preloader Removal (Ensured definition before use) --- */
-   let preloader = select('#preloader');
-   const removePreloader = () => {
-       if(preloader) {
-           console.log("Attempting to remove preloader...");
-           preloader.remove();
-           console.log("Preloader should be removed.");
-       } else {
-            console.warn("Preloader element not found when trying to remove.");
-       }
-   };
-   // Add the event listener using the defined function
-   if(preloader) {
-       window.addEventListener('load', removePreloader);
-   } else {
-       console.warn("Preloader #preloader not found in HTML.");
-   }
-   // --------------------------------------------------------
-
+  /* Preloader */
+  let preloader = select('#preloader');
+  if (preloader) {
+    // Define the function to remove preloader
+    const removePreloader = () => {
+      preloader.remove();
+      console.log("Preloader removed successfully");
+    };
+    
+    // Add direct event listener to window load
+    window.addEventListener('load', removePreloader);
+    
+    // Backup timeout to ensure it gets removed even if load event issues
+    setTimeout(() => {
+      if (document.getElementById('preloader')) {
+        removePreloader();
+      }
+    }, 1000);
+  }
 
   /* --- Functions to run AFTER window load --- */
-  window.addEventListener("load",()=>{
-      console.log("Executing functions inside window.load...");
+  window.addEventListener('load', () => {
+    console.log("Window load event triggered");
+    
+    /* Scroll to hash if exists */
+    if (window.location.hash) {
+      if (select(window.location.hash)) {
+        scrollto(window.location.hash);
+      }
+    }
 
-      /* Scroll to hash if exists (delayed slightly) */
-      if(window.location.hash){let t=select(window.location.hash);t?(console.log(`Scrolling to hash: ${window.location.hash}`),setTimeout(()=>{scrollto(window.location.hash)},100)):console.warn(`Hash element ${window.location.hash} not found on load`)}
+    /* Hero type effect */
+    const typedElement = select('.typed');
+    if (typedElement) {
+      let typed_strings = typedElement.getAttribute('data-typed-items');
+      if (typed_strings) {
+        typed_strings = typed_strings.split(',');
+        try {
+          if (typeof Typed !== 'undefined') {
+            new Typed('.typed', {
+              strings: typed_strings,
+              loop: true,
+              typeSpeed: 100,
+              backSpeed: 50,
+              backDelay: 2000
+            });
+            console.log("Typed.js initialized successfully");
+          } else {
+            console.error("Typed.js library is not loaded");
+          }
+        } catch (e) {
+          console.error("Error initializing Typed.js:", e);
+        }
+      }
+    }
 
-      /* Hero type effect Debug */
-      const typedElement=select(".typed");console.log("Typed Element Selected:",typedElement),typedElement?(()=>{let typed_strings=typedElement.getAttribute("data-typed-items");if(console.log("Typed Items Attribute:",typed_strings),typed_strings)try{if("undefined"==typeof Typed)return void console.error("Typed.js library is NOT loaded.");console.log("Typed.js library is loaded. Initializing..."),typed_strings=typed_strings.split(","),console.log("Typed Strings Array:",typed_strings),new Typed(".typed",{strings:typed_strings,loop:!0,typeSpeed:100,backSpeed:50,backDelay:2e3}),console.log("Typed.js Initialized Successfully.")}catch(t){console.error("Error during Typed.js initialization:",t)}else console.warn("Typed element found, but 'data-typed-items' attribute is missing or empty.")})():console.warn("Typed element '.typed' not found.");
+    /* Init Isotope Projects */
+    let projectsContainer = select('.projects-container');
+    if (projectsContainer) {
+      try {
+        if (typeof Isotope !== 'undefined') {
+          let projectsIsotope = new Isotope(projectsContainer, {
+            itemSelector: '.projects-item',
+            layoutMode: 'fitRows'
+          });
+          
+          let projectsFilters = select('#projects-filters li', true);
+          on('click', '#projects-filters li', function(e) {
+            e.preventDefault();
+            projectsFilters.forEach(function(el) {
+              el.classList.remove('filter-active');
+            });
+            this.classList.add('filter-active');
+            
+            projectsIsotope.arrange({
+              filter: this.getAttribute('data-filter')
+            });
+            if (typeof AOS !== 'undefined') {
+              AOS.refresh();
+            }
+          }, true);
+        } else {
+          console.error("Isotope library is not loaded");
+        }
+      } catch (e) {
+        console.error("Error initializing Projects Isotope:", e);
+      }
+    }
 
-      /* Init Isotope Projects */
-      let projectsContainer=select(".projects-container");projectsContainer&&(()=>{try{let t=new Isotope(projectsContainer,{itemSelector:".projects-item",layoutMode:"fitRows"}),i=select("#projects-filters li",!0);on("click","#projects-filters li",function(e){e.preventDefault(),i.forEach(t=>t.classList.remove("filter-active")),this.classList.add("filter-active"),t.arrange({filter:this.getAttribute("data-filter")}),"undefined"!=typeof AOS&&AOS.refresh()},!0)}catch(t){console.error("Error initializing Projects Isotope:",t)}})();
+    /* Init Isotope Photography */
+    let photographyContainer = select('.photography-container');
+    if (photographyContainer) {
+      try {
+        if (typeof Isotope !== 'undefined') {
+          let photographyIsotope = new Isotope(photographyContainer, {
+            itemSelector: '.photography-item',
+            layoutMode: 'masonry'
+          });
+          
+          let photographyFilters = select('#photography-filters li', true);
+          on('click', '#photography-filters li', function(e) {
+            e.preventDefault();
+            photographyFilters.forEach(function(el) {
+              el.classList.remove('filter-active');
+            });
+            this.classList.add('filter-active');
+            
+            photographyIsotope.arrange({
+              filter: this.getAttribute('data-filter')
+            });
+            if (typeof AOS !== 'undefined') {
+              AOS.refresh();
+            }
+          }, true);
+        } else {
+          console.error("Isotope library is not loaded");
+        }
+      } catch (e) {
+        console.error("Error initializing Photography Isotope:", e);
+      }
+    }
 
-      /* Init Isotope Photography */
-      let photographyContainer=select(".photography-container");photographyContainer&&(()=>{try{let t=new Isotope(photographyContainer,{itemSelector:".photography-item",layoutMode:"masonry"}),e=select("#photography-filters li",!0);on("click","#photography-filters li",function(i){i.preventDefault(),e.forEach(t=>t.classList.remove("filter-active")),this.classList.add("filter-active"),t.arrange({filter:this.getAttribute("data-filter")}),"undefined"!=typeof AOS&&AOS.refresh()},!0)}catch(t){console.error("Error initializing Photography Isotope:",t)}})();
+    /* Init Isotope Writings */
+    let writingsContainer = select('.writings-container');
+    if (writingsContainer) {
+      try {
+        if (typeof Isotope !== 'undefined') {
+          let writingsIsotope = new Isotope(writingsContainer, {
+            itemSelector: '.writings-item',
+            layoutMode: 'fitRows'
+          });
+          
+          let writingsFilters = select('#writings-filters li', true);
+          on('click', '#writings-filters li', function(e) {
+            e.preventDefault();
+            writingsFilters.forEach(function(el) {
+              el.classList.remove('filter-active');
+            });
+            this.classList.add('filter-active');
+            
+            writingsIsotope.arrange({
+              filter: this.getAttribute('data-filter')
+            });
+            if (typeof AOS !== 'undefined') {
+              AOS.refresh();
+            }
+          }, true);
+        } else {
+          console.error("Isotope library is not loaded");
+        }
+      } catch (e) {
+        console.error("Error initializing Writings Isotope:", e);
+      }
+    }
 
-      /* Init Isotope Writings */
-      let writingsContainer=select(".writings-container");writingsContainer&&(()=>{try{let t=new Isotope(writingsContainer,{itemSelector:".writings-item",layoutMode:"fitRows"}),e=select("#writings-filters li",!0);on("click","#writings-filters li",function(i){i.preventDefault(),e.forEach(t=>t.classList.remove("filter-active")),this.classList.add("filter-active"),t.arrange({filter:this.getAttribute("data-filter")}),"undefined"!=typeof AOS&&AOS.refresh()},!0)}catch(t){console.error("Error initializing Writings Isotope:",t)}})();
+    /* Init GLightbox */
+    try {
+      if (typeof GLightbox !== 'undefined') {
+        GLightbox({
+          selector: '.photography-lightbox'
+        });
+      } else {
+        console.error("GLightbox library is not loaded");
+      }
+    } catch (e) {
+      console.error("Error initializing GLightbox:", e);
+    }
 
-      /* Init GLightbox */
-      try{"undefined"!=typeof GLightbox?GLightbox({selector:".photography-lightbox"}):console.error("GLightbox library is not loaded.")}catch(t){console.error("Error initializing GLightbox:",t)}
+    /* Init AOS */
+    try {
+      if (typeof AOS !== 'undefined') {
+        AOS.init({
+          duration: 800,
+          easing: 'ease-in-out',
+          once: false,
+          mirror: false,
+          anchorPlacement: 'top-bottom'
+        });
+      } else {
+        console.warn("AOS library is not loaded");
+      }
+    } catch (e) {
+      console.error("Error initializing AOS:", e);
+    }
 
-      /* Init AOS */
-      try{"undefined"!=typeof AOS?(AOS.init({duration:800,easing:"ease-in-out",once:!1,mirror:!1,anchorPlacement:"top-bottom"}),console.log("AOS Initialized (once: false).")):console.warn("AOS library is not loaded.")}catch(t){console.error("Error initializing AOS:",t)}
+    /* Init Swiper Certificates */
+    try {
+      if (typeof Swiper !== 'undefined') {
+        new Swiper('.certificates-slider', {
+          speed: 600,
+          loop: false,
+          autoplay: {
+            delay: 5000,
+            disableOnInteraction: true
+          },
+          slidesPerView: 'auto',
+          breakpoints: {
+            320: {
+              slidesPerView: 1,
+              spaceBetween: 20
+            },
+            768: {
+              slidesPerView: 2,
+              spaceBetween: 30
+            },
+            992: {
+              slidesPerView: 3,
+              spaceBetween: 30
+            }
+          },
+          pagination: {
+            el: '.certificates-slider .swiper-pagination',
+            clickable: true
+          },
+          navigation: {
+            nextEl: '.certificates-slider .swiper-button-next',
+            prevEl: '.certificates-slider .swiper-button-prev'
+          }
+        });
+      } else {
+        console.error("Swiper library is not loaded");
+      }
+    } catch (e) {
+      console.error("Error initializing Certificates Swiper:", e);
+    }
 
-      /* Init Swiper Certificates */
-       try{"undefined"!=typeof Swiper?new Swiper(".certificates-slider",{speed:600,loop:!1,autoplay:{delay:5e3,disableOnInteraction:!0},slidesPerView:"auto",breakpoints:{320:{slidesPerView:1,spaceBetween:20},768:{slidesPerView:2,spaceBetween:30},992:{slidesPerView:3,spaceBetween:30}},pagination:{el:".certificates-slider .swiper-pagination",clickable:!0},navigation:{nextEl:".certificates-slider .swiper-button-next",prevEl:".certificates-slider .swiper-button-prev"}}):console.error("Swiper library is not loaded.")}catch(t){console.error("Error initializing Certificates Swiper:",t)}
-
-      /* Init Swiper Videos */
-      try{"undefined"!=typeof Swiper?new Swiper(".videos-slider",{speed:600,loop:!1,autoplay:{delay:6e3,disableOnInteraction:!0},slidesPerView:"auto",centeredSlides:!0,breakpoints:{320:{slidesPerView:1,spaceBetween:15},768:{slidesPerView:"auto",spaceBetween:20},992:{slidesPerView:2,spaceBetween:30}},pagination:{el:".videos-slider .swiper-pagination",clickable:!0},navigation:{nextEl:".videos-slider .swiper-button-next",prevEl:".videos-slider .swiper-button-prev"}}):console.error("Swiper library is not loaded.")}catch(t){console.error("Error initializing Videos Swiper:",t)}
-
-      console.log("Window.load functions complete.");
+    /* Init Swiper Videos */
+    try {
+      if (typeof Swiper !== 'undefined') {
+        new Swiper('.videos-slider', {
+          speed: 600,
+          loop: false,
+          autoplay: {
+            delay: 6000,
+            disableOnInteraction: true
+          },
+          slidesPerView: 'auto',
+          centeredSlides: true,
+          breakpoints: {
+            320: {
+              slidesPerView: 1,
+              spaceBetween: 15
+            },
+            768: {
+              slidesPerView: 'auto',
+              spaceBetween: 20
+            },
+            992: {
+              slidesPerView: 2,
+              spaceBetween: 30
+            }
+          },
+          pagination: {
+            el: '.videos-slider .swiper-pagination',
+            clickable: true
+          },
+          navigation: {
+            nextEl: '.videos-slider .swiper-button-next',
+            prevEl: '.videos-slider .swiper-button-prev'
+          }
+        });
+      } else {
+        console.error("Swiper library is not loaded");
+      }
+    } catch (e) {
+      console.error("Error initializing Videos Swiper:", e);
+    }
   });
 
   /* Skills observer */
-  const skillsContent=select("#skills .skills-content");skillsContent&&(()=>{const t=new IntersectionObserver((t,e)=>{t.forEach(t=>{t.isIntersecting&&(select(".progress .progress-bar",!0).forEach(t=>{t.style.width=t.getAttribute("aria-valuenow")+"%"}),e.unobserve(t.target))})},{threshold:.3});t.observe(skillsContent)})();
+  const skillsContent = select('#skills .skills-content');
+  if (skillsContent) {
+    const skillsObserver = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            select('.progress .progress-bar', true).forEach(el => {
+              el.style.width = el.getAttribute('aria-valuenow') + '%';
+            });
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+    skillsObserver.observe(skillsContent);
+  }
 
 })(); // End IIFE
