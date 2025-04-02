@@ -1,9 +1,7 @@
 /**
-* Template Name: DevFolio
-* Updated: Nov 17 2023 with Bootstrap v5.3.2
-* Template URL: https://bootstrapmade.com/devfolio-bootstrap-portfolio-html-template/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
+* Template Name: Spectra Virtual Labs Enhanced - main.js
+* Based on DevFolio, Modified by Kelvin Mafurendi & AI Assistant
+* License: --- (Update if you have one)
 */
 (function() {
   "use strict";
@@ -35,7 +33,7 @@
   }
 
   /**
-   * Easy on scroll event listener 
+   * Easy on scroll event listener
    */
   const onscroll = (el, listener) => {
     el.addEventListener('scroll', listener)
@@ -68,9 +66,12 @@
     let header = select('#header')
     let offset = header.offsetHeight
 
-    if (!header.classList.contains('header-scrolled')) {
-      offset -= 16
-    }
+     // Your offset calculation from DevFolio (adjust if needed for your header height diff)
+     if (!header.classList.contains('header-scrolled')) {
+      // Check current padding/height vs scrolled padding/height if precision needed
+      // Let's use a fixed reasonable offset adjustment
+       offset -= 8 // Might need tweaking based on actual padding diff
+     }
 
     let elementPos = select(el).offsetTop
     window.scrollTo({
@@ -109,37 +110,33 @@
     }
     window.addEventListener('load', toggleBacktotop)
     onscroll(document, toggleBacktotop)
+    // Scroll to top when clicked - Add this part if missing
+    on('click', '.back-to-top', function(e) {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
   }
 
   /**
-   * Mobile nav toggle
+   * Mobile nav toggle - Use body class for overlay effect
    */
   on('click', '.mobile-nav-toggle', function(e) {
-    select('#navbar').classList.toggle('navbar-mobile')
+    select('body').classList.toggle('mobile-nav-active') // Use body class
     this.classList.toggle('bi-list')
     this.classList.toggle('bi-x')
   })
 
   /**
-   * Mobile nav dropdowns activate
-   */
-  on('click', '.navbar .dropdown > a', function(e) {
-    if (select('#navbar').classList.contains('navbar-mobile')) {
-      e.preventDefault()
-      this.nextElementSibling.classList.toggle('dropdown-active')
-    }
-  }, true)
-
-  /**
    * Scrool with ofset on links with a class name .scrollto
+   * Close mobile nav on click
    */
   on('click', '.scrollto', function(e) {
     if (select(this.hash)) {
       e.preventDefault()
 
-      let navbar = select('#navbar')
-      if (navbar.classList.contains('navbar-mobile')) {
-        navbar.classList.remove('navbar-mobile')
+      let body = select('body') // Check body class
+      if (body.classList.contains('mobile-nav-active')) {
+        body.classList.remove('mobile-nav-active')
         let navbarToggle = select('.mobile-nav-toggle')
         navbarToggle.classList.toggle('bi-list')
         navbarToggle.classList.toggle('bi-x')
@@ -160,7 +157,7 @@
   });
 
   /**
-   * Intro type effect
+   * Hero type effect (Kept from your code)
    */
   const typed = select('.typed')
   if (typed) {
@@ -176,82 +173,125 @@
   }
 
   /**
-   * Initiate portfolio lightbox 
-   */
-  const portfolioLightbox = GLightbox({
-    selector: '.portfolio-lightbox'
-  });
-
-  /**
-   * Testimonials slider
-   */
-  new Swiper('.testimonials-slider', {
-    speed: 600,
-    loop: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false
-    },
-    slidesPerView: 'auto',
-    pagination: {
-      el: '.swiper-pagination',
-      type: 'bullets',
-      clickable: true
-    }
-  });
-
-  /**
-   * Portfolio details slider
-   */
-  new Swiper('.portfolio-details-slider', {
-    speed: 400,
-    loop: true,
-    autoplay: {
-      delay: 5000,
-      disableOnInteraction: false
-    },
-    pagination: {
-      el: '.swiper-pagination',
-      type: 'bullets',
-      clickable: true
-    }
-  });
-
-  /**
-   * Preloader
+   * Preloader (Kept from your code - Crucial!)
    */
   let preloader = select('#preloader');
   if (preloader) {
     window.addEventListener('load', () => {
-      preloader.remove()
+      preloader.remove();
     });
   }
 
   /**
-   * Initiate Pure Counter 
+   * Initiate Isotope filtering for Projects, Photography, and Writings
+   * Place inside window.load to ensure images are loaded for layout
    */
-  new PureCounter();
+  window.addEventListener('load', () => {
+    // Isotope for Projects
+    let projectsContainer = select('.projects-container');
+    if (projectsContainer) {
+      let projectsIsotope = new Isotope(projectsContainer, {
+        itemSelector: '.projects-item',
+        layoutMode: 'fitRows'
+      });
+      let projectsFilters = select('#projects-filters li', true);
+      on('click', '#projects-filters li', function(e) {
+        e.preventDefault();
+        projectsFilters.forEach(el => el.classList.remove('filter-active'));
+        this.classList.add('filter-active');
+        projectsIsotope.arrange({ filter: this.getAttribute('data-filter') });
+        if (typeof AOS !== 'undefined') AOS.refresh(); // Refresh AOS after filtering
+      }, true);
+    }
 
-})()
-document.addEventListener('DOMContentLoaded', function() {
-  // Animate skill bars when they come into view
-  const skillBars = document.querySelectorAll('.progress');
-  
-  const animateSkill = (entries, observer) => {
+    // Isotope for Photography
+    let photographyContainer = select('.photography-container');
+    if (photographyContainer) {
+      let photographyIsotope = new Isotope(photographyContainer, {
+        itemSelector: '.photography-item',
+        layoutMode: 'masonry' // Masonry often looks better for varying image heights
+      });
+      let photographyFilters = select('#photography-filters li', true);
+      on('click', '#photography-filters li', function(e) {
+        e.preventDefault();
+        photographyFilters.forEach(el => el.classList.remove('filter-active'));
+        this.classList.add('filter-active');
+        photographyIsotope.arrange({ filter: this.getAttribute('data-filter') });
+         if (typeof AOS !== 'undefined') AOS.refresh();
+      }, true);
+    }
+
+    // Isotope for Writings
+    let writingsContainer = select('.writings-container');
+    if (writingsContainer) {
+        let writingsIsotope = new Isotope(writingsContainer, {
+            itemSelector: '.writings-item',
+            layoutMode: 'fitRows'
+        });
+        let writingsFilters = select('#writings-filters li', true);
+        on('click', '#writings-filters li', function (e) {
+            e.preventDefault();
+            writingsFilters.forEach(el => el.classList.remove('filter-active'));
+            this.classList.add('filter-active');
+            writingsIsotope.arrange({ filter: this.getAttribute('data-filter') });
+            if (typeof AOS !== 'undefined') AOS.refresh();
+        }, true);
+    }
+  }); // End window.load for Isotope
+
+  /**
+   * Initiate GLightbox (Using CORRECT selector from your HTML)
+   */
+  const photographyLightbox = GLightbox({
+    selector: '.photography-lightbox' // Correct selector for photography links
+  });
+
+
+  /**
+   * Skills animation using Intersection Observer
+   * (Replaces PureCounter and external DOMContentLoaded listener from your original files)
+   */
+  const skillsContent = select('#skills .skills-content');
+  if (skillsContent) {
+      const skillsObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
+          // When the skill section is 50% visible
           if (entry.isIntersecting) {
-              const progressBar = entry.target.querySelector('.progress-bar');
-              const skill = entry.target.getAttribute('data-skill');
-              progressBar.style.width = `${skill}%`;
-              // Unobserve after animation
+              // Select all progress bars within the visible section
+              select('.progress .progress-bar', true).forEach(bar => {
+                    // Set the width based on the aria-valuenow attribute
+                    bar.style.width = bar.getAttribute('aria-valuenow') + '%';
+                    // Optional: Add text inside the bar if desired (ensure CSS contrast)
+                    // bar.textContent = bar.getAttribute('aria-valuenow') + '%';
+                });
+              // Stop observing once animation is done for this section
               observer.unobserve(entry.target);
           }
       });
-  };
+      }, { threshold: 0.3 }); // Trigger when 30% of the element is visible
 
-  const skillObserver = new IntersectionObserver(animateSkill, {
-      threshold: 0.5
+      // Observe the container of the skills section
+      skillsObserver.observe(skillsContent);
+  }
+
+  /**
+   * Initiate AOS (Animation on Scroll)
+   * Call init on load AFTER potential Isotope rearrangement
+   */
+  window.addEventListener('load', () => {
+    if (typeof AOS !== 'undefined') { // Check if AOS is loaded
+       AOS.init({
+         duration: 800,
+         easing: 'ease-in-out',
+         once: true,
+         mirror: false,
+         anchorPlacement: 'top-bottom'
+       });
+    }
   });
 
-  skillBars.forEach(bar => skillObserver.observe(bar));
-});
+  // REMOVED: Swiper initializations (testimonials, portfolio-details) - Not in your HTML
+  // REMOVED: PureCounter() initialization - Replaced by IntersectionObserver logic
+
+
+})() // End of IIFE
