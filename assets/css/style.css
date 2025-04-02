@@ -140,6 +140,9 @@ h1, h2, h3, h4, h5, h6 {
   z-index: 997;
   /* Slightly transparent dark bg with blur */
   background: rgba(42, 47, 61, 0.8); /* var(--dark-card-bg) with alpha */
+  /* Add prefixed version for Safari */
+  -webkit-backdrop-filter: blur(10px);
+  /* Standard version */
   backdrop-filter: blur(10px);
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2); /* Darker shadow */
   transition: all 0.3s ease-in-out;
