@@ -726,7 +726,6 @@ section {
   padding-left: 5px;
 }
 
-
 /*--------------------------------------------------------------
 # Project Documentation Section
 --------------------------------------------------------------*/
@@ -734,7 +733,7 @@ section {
   padding: 90px 0;
 }
 
-/* Updated to match other filter sections */
+/* Filters Styling - This should already be consistent with other sections */
 .docs-filters {
   padding: 0;
   margin: 0 0 30px 0;
@@ -764,22 +763,22 @@ section {
   color: var(--primary-color);
 }
 
-/* The rest remains unchanged */
+/* Document Card Styling - Updated for consistency */
 .docs-item {
   margin-bottom: 30px;
 }
 
 .docs-card {
-  background: #fff;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
-  border-radius: 8px;
+  background: var(--white); /* Use theme variable */
+  border-radius: 15px; /* Consistent with other cards */
   overflow: hidden;
-  height: 100%;
-  transition: transform 0.3s ease;
+  box-shadow: var(--box-shadow); /* Consistent shadow */
+  transition: var(--transition); /* Consistent transition */
+  height: 100%; /* Good for alignment in rows */
 }
 
 .docs-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-10px); /* Consistent hover effect */
 }
 
 .docs-img {
@@ -789,13 +788,15 @@ section {
 
 .docs-img img {
   width: 100%;
-  height: 180px;
+  /* Consider height: 200px; for visual consistency with other cards like projects/writings. 
+     If 180px is preferred for document thumbnails, you can keep it. */
+  height: 180px; /* Or adjust to 200px for more consistency */
   object-fit: cover;
-  transition: all 0.6s;
+  transition: var(--transition); /* Consistent transition */
 }
 
 .docs-card:hover .docs-img img {
-  transform: scale(1.05);
+  transform: scale(1.1); /* Consistent hover scale */
 }
 
 .docs-info {
@@ -803,22 +804,22 @@ section {
 }
 
 .docs-info h4 {
-  font-size: 17px;
+  font-size: 18px; /* Consistent font size */
   margin: 0 0 10px 0;
   font-weight: 600;
-  color: #333;
+  color: var(--secondary-color); /* Use theme variable */
 }
 
 .docs-info p {
   font-size: 14px;
   margin-bottom: 15px;
-  color: #666;
-  min-height: 40px;
+  color: var(--gray); /* Use theme variable */
+  /* min-height: 40px; /* Removed for now, height: 100% on card usually handles row consistency */
 }
 
 .docs-meta {
   margin-bottom: 15px;
-  color: #777;
+  color: var(--gray); /* Use theme variable */
   font-size: 13px;
 }
 
@@ -828,43 +829,43 @@ section {
 
 .docs-meta span i {
   margin-right: 5px;
-  color: var(--primary-color, #34b7a7);
+  color: var(--primary-color); /* Good use of var */
 }
 
 .docs-link {
   display: inline-block;
   font-weight: 600;
   font-size: 14px;
-  color: var(--primary-color, #34b7a7);
-  transition: 0.3s;
+  color: var(--primary-color); /* Good use of var */
+  transition: var(--transition); /* Consistent transition */
 }
 
 .docs-link:hover {
-  color: var(--primary-color-dark, #2c9d8f);
+  color: #8a84ff; /* Consistent with general a:hover style */
 }
 
 .docs-link i {
   margin-left: 5px;
 }
 
-/* PDF Viewer Modal */
+/* PDF Viewer Modal - Styles unchanged, assuming they are fine */
 .modal-xl {
   max-width: 90%;
 }
 
 .pdf-container {
   position: relative;
-  padding-bottom: 10px;
+  padding-bottom: 10px; /* Consider removing if not needed, or adjust */
   overflow: hidden;
 }
 
 .pdf-container iframe {
   border: none;
-  background: #f8f9fa;
+  background: #f8f9fa; /* Could use var(--light-color) for consistency with dark mode */
   border-radius: 4px;
 }
 
-/* Make the PDF viewer responsive */
+/* Make the PDF viewer responsive - Styles unchanged */
 @media (max-width: 768px) {
   .modal-xl {
     max-width: 100%;
@@ -877,17 +878,14 @@ section {
 }
 
 @media (max-width: 576px) {
-  .docs-filters li {
-    padding: 10px 20px; /* Updated to match other filter sections */
-    font-size: 15px; /* Updated to match other filter sections */
-  }
+  /* .docs-filters li already has general styling from above */
   
   .pdf-container iframe {
     height: 350px;
   }
   
   .docs-info h4 {
-    font-size: 15px;
+    font-size: 16px; /* Adjusted for smaller screens (consistent with other section's card titles on small screens) */
   }
   
   .docs-info p {
