@@ -726,6 +726,175 @@ section {
   padding-left: 5px;
 }
 
+
+/*--------------------------------------------------------------
+# Project Documentation Section
+--------------------------------------------------------------*/
+.project-docs {
+  padding: 60px 0;
+}
+
+.docs-filters {
+  padding: 0;
+  margin: 0 0 30px 0;
+  text-align: center;
+}
+
+.docs-filters ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.docs-filters li {
+  cursor: pointer;
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  margin: 0 3px 10px 3px;
+  transition: all 0.3s ease-in-out;
+  border-radius: 50px;
+  color: #444444;
+}
+
+.docs-filters li:hover,
+.docs-filters li.filter-active {
+  color: #fff;
+  background: var(--primary-color, #34b7a7);
+}
+
+.docs-item {
+  margin-bottom: 30px;
+}
+
+.docs-card {
+  background: #fff;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  overflow: hidden;
+  height: 100%;
+  transition: transform 0.3s ease;
+}
+
+.docs-card:hover {
+  transform: translateY(-5px);
+}
+
+.docs-img {
+  position: relative;
+  overflow: hidden;
+}
+
+.docs-img img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  transition: all 0.6s;
+}
+
+.docs-card:hover .docs-img img {
+  transform: scale(1.05);
+}
+
+.docs-info {
+  padding: 20px;
+}
+
+.docs-info h4 {
+  font-size: 17px;
+  margin: 0 0 10px 0;
+  font-weight: 600;
+  color: #333;
+}
+
+.docs-info p {
+  font-size: 14px;
+  margin-bottom: 15px;
+  color: #666;
+  min-height: 40px;
+}
+
+.docs-meta {
+  margin-bottom: 15px;
+  color: #777;
+  font-size: 13px;
+}
+
+.docs-meta span {
+  display: inline-block;
+}
+
+.docs-meta span i {
+  margin-right: 5px;
+  color: var(--primary-color, #34b7a7);
+}
+
+.docs-link {
+  display: inline-block;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--primary-color, #34b7a7);
+  transition: 0.3s;
+}
+
+.docs-link:hover {
+  color: var(--primary-color-dark, #2c9d8f);
+}
+
+.docs-link i {
+  margin-left: 5px;
+}
+
+/* PDF Viewer Modal */
+.modal-xl {
+  max-width: 90%;
+}
+
+.pdf-container {
+  position: relative;
+  padding-bottom: 10px;
+  overflow: hidden;
+}
+
+.pdf-container iframe {
+  border: none;
+  background: #f8f9fa;
+  border-radius: 4px;
+}
+
+/* Make the PDF viewer responsive */
+@media (max-width: 768px) {
+  .modal-xl {
+    max-width: 100%;
+    margin: 10px;
+  }
+  
+  .pdf-container iframe {
+    height: 450px;
+  }
+}
+
+@media (max-width: 576px) {
+  .docs-filters li {
+    padding: 6px 12px;
+    font-size: 13px;
+  }
+  
+  .pdf-container iframe {
+    height: 350px;
+  }
+  
+  .docs-info h4 {
+    font-size: 15px;
+  }
+  
+  .docs-info p {
+    font-size: 13px;
+  }
+}
+
 /*--------------------------------------------------------------
 # Photography
 --------------------------------------------------------------*/
