@@ -731,9 +731,12 @@ section {
 --------------------------------------------------------------*/
 .project-docs {
   padding: 90px 0;
+  /* Ensure a background if needed for consistency with other sections, 
+     e.g., background-color: var(--light-color); or var(--white)
+     based on your dark/light mode context for other sections */
 }
 
-/* Filters Styling - This should already be consistent with other sections */
+/* Filters Styling - Updated to ensure button-like appearance */
 .docs-filters {
   padding: 0;
   margin: 0 0 30px 0;
@@ -742,43 +745,59 @@ section {
 
 .docs-filters ul {
   margin: 0;
-  padding: 0;
-  list-style: none;
+  padding: 0; /* Explicitly remove default ul padding */
+  list-style: none; /* CRITICAL: Removes bullet points */
+  display: inline-block; /* Allows the ul itself to be centered if text-align: center is on parent */
 }
 
 .docs-filters li {
   cursor: pointer;
-  display: inline-block;
-  padding: 10px 20px;
-  font-size: 15px;
+  display: inline-block; /* CRITICAL: Makes items horizontal */
+  padding: 8px 20px; /* Adjust padding for button feel */
+  font-size: 14px;   /* Slightly smaller for buttons can look good */
   font-weight: 500;
   line-height: 1;
   text-transform: uppercase;
-  color: var(--text-color);
-  margin-bottom: 10px;
+  color: var(--text-color); /* Or specific color for inactive filter buttons */
+  
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Match photography button border in dark mode */
+  border-radius: 50px; /* Make them rounded like buttons */
+  
+  margin-right: 8px; /* Space between filter buttons */
+  margin-left: 8px;
+  margin-bottom: 10px; /* For wrapping on smaller screens */
   transition: var(--transition);
 }
 
-.docs-filters li:hover, .docs-filters li.filter-active {
+.docs-filters li:hover {
   color: var(--primary-color);
+  border-color: var(--primary-color);
+  background-color: rgba(108, 99, 255, 0.1); /* Slight background on hover */
 }
 
-/* Document Card Styling - Updated for consistency */
+.docs-filters li.filter-active {
+  color: var(--white); /* Text color for active button */
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+
+/* Document Card Styling - From previous correct step */
 .docs-item {
   margin-bottom: 30px;
 }
 
 .docs-card {
-  background: var(--white); /* Use theme variable */
-  border-radius: 15px; /* Consistent with other cards */
+  background: var(--white);
+  border-radius: 15px;
   overflow: hidden;
-  box-shadow: var(--box-shadow); /* Consistent shadow */
-  transition: var(--transition); /* Consistent transition */
-  height: 100%; /* Good for alignment in rows */
+  box-shadow: var(--box-shadow);
+  transition: var(--transition);
+  height: 100%;
 }
 
 .docs-card:hover {
-  transform: translateY(-10px); /* Consistent hover effect */
+  transform: translateY(-10px);
 }
 
 .docs-img {
@@ -788,15 +807,13 @@ section {
 
 .docs-img img {
   width: 100%;
-  /* Consider height: 200px; for visual consistency with other cards like projects/writings. 
-     If 180px is preferred for document thumbnails, you can keep it. */
-  height: 180px; /* Or adjust to 200px for more consistency */
+  height: 180px; /* Or 200px */
   object-fit: cover;
-  transition: var(--transition); /* Consistent transition */
+  transition: var(--transition);
 }
 
 .docs-card:hover .docs-img img {
-  transform: scale(1.1); /* Consistent hover scale */
+  transform: scale(1.1);
 }
 
 .docs-info {
@@ -804,22 +821,21 @@ section {
 }
 
 .docs-info h4 {
-  font-size: 18px; /* Consistent font size */
+  font-size: 18px;
   margin: 0 0 10px 0;
   font-weight: 600;
-  color: var(--secondary-color); /* Use theme variable */
+  color: var(--secondary-color);
 }
 
 .docs-info p {
   font-size: 14px;
   margin-bottom: 15px;
-  color: var(--gray); /* Use theme variable */
-  /* min-height: 40px; /* Removed for now, height: 100% on card usually handles row consistency */
+  color: var(--gray);
 }
 
 .docs-meta {
   margin-bottom: 15px;
-  color: var(--gray); /* Use theme variable */
+  color: var(--gray);
   font-size: 13px;
 }
 
@@ -829,65 +845,65 @@ section {
 
 .docs-meta span i {
   margin-right: 5px;
-  color: var(--primary-color); /* Good use of var */
+  color: var(--primary-color);
 }
 
 .docs-link {
   display: inline-block;
   font-weight: 600;
   font-size: 14px;
-  color: var(--primary-color); /* Good use of var */
-  transition: var(--transition); /* Consistent transition */
+  color: var(--primary-color);
+  transition: var(--transition);
 }
 
 .docs-link:hover {
-  color: #8a84ff; /* Consistent with general a:hover style */
+  color: #8a84ff;
 }
 
 .docs-link i {
   margin-left: 5px;
 }
 
-/* PDF Viewer Modal - Styles unchanged, assuming they are fine */
+/* PDF Viewer Modal - Styles unchanged */
 .modal-xl {
   max-width: 90%;
 }
 
 .pdf-container {
   position: relative;
-  padding-bottom: 10px; /* Consider removing if not needed, or adjust */
+  padding-bottom: 10px;
   overflow: hidden;
 }
 
 .pdf-container iframe {
   border: none;
-  background: #f8f9fa; /* Could use var(--light-color) for consistency with dark mode */
+  /* For dark mode consistency, if .project-docs is dark */
+  background: var(--light-color); /* Or #f8f9fa if modal is always light */
   border-radius: 4px;
 }
 
-/* Make the PDF viewer responsive - Styles unchanged */
+/* Responsive for PDF viewer */
 @media (max-width: 768px) {
   .modal-xl {
     max-width: 100%;
     margin: 10px;
   }
-  
   .pdf-container iframe {
     height: 450px;
   }
 }
 
 @media (max-width: 576px) {
-  /* .docs-filters li already has general styling from above */
-  
+  .docs-filters li {
+    padding: 8px 15px; /* Adjust padding for smaller buttons on mobile */
+    font-size: 13px;
+  }
   .pdf-container iframe {
     height: 350px;
   }
-  
   .docs-info h4 {
-    font-size: 16px; /* Adjusted for smaller screens (consistent with other section's card titles on small screens) */
+    font-size: 16px;
   }
-  
   .docs-info p {
     font-size: 13px;
   }
