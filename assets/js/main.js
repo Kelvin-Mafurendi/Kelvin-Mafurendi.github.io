@@ -389,6 +389,81 @@
     }
   });
 
+  /**
+ * Project Documentation section functionality
+ * Handles PDF viewer and filtering
+ */
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize Isotope for document filtering
+  let docsIsotope = document.querySelector('.docs-container');
+  if (docsIsotope) {
+    let docsFilter = document.querySelectorAll('#docs-filters li');
+    
+    // Initialize Isotope after images are loaded
+    window.addEventListener('load', () => {
+      let iso = new Isotope(docsIsotope, {
+        itemSelector: '.docs-item',
+        layoutMode: 'fitRows'
+      });
+      
+      // Filter items on click
+      docsFilter.forEach(function(filter) {
+        filter.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          // Remove active class from all filters
+          docsFilter.forEach(function(el) {
+            el.classList.remove('filter-active');
+          });
+          
+          // Add active class to clicked filter
+          this.classList.add('filter-active');
+          
+          // Get filter value
+          let filterValue = this.getAttribute('data-filter');
+          
+          // Arrange items by filter value
+          iso.arrange({
+            filter: filterValue
+          });
+        });
+      });
+    });
+  }
+  
+  // PDF Viewer Modal functionality
+  const pdfViewerModal = document.getElementById('pdfViewerModal');
+  if (pdfViewerModal) {
+    const pdfLinks = document.querySelectorAll('.pdf-viewer');
+    const pdfFrame = document.getElementById('pdfFrame');
+    const modalTitle = document.getElementById('pdfViewerModalLabel');
+    const pdfModal = new bootstrap.Modal(pdfViewerModal);
+    
+    // Add click event to all PDF links
+    pdfLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Get PDF URL and title
+        const pdfUrl = this.getAttribute('href');
+        const pdfTitle = this.getAttribute('data-title') || 'Document Viewer';
+        
+        // Set modal title and iframe source
+        modalTitle.textContent = pdfTitle;
+        pdfFrame.src = pdfUrl;
+        
+        // Show modal
+        pdfModal.show();
+      });
+    });
+    
+    // Clear iframe src when modal is closed to stop PDF loading
+    pdfViewerModal.addEventListener('hidden.bs.modal', function() {
+      pdfFrame.src = '';
+    });
+  }
+});
+
   /* Skills observer */
   const skillsContent = select('#skills .skills-content');
   if (skillsContent) {
