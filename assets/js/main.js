@@ -1,5 +1,5 @@
 /**
-* Template Name: Spectra Virtual Labs Enhanced - main.js v1.4 (Preloader Fix)
+* Template Name: Spectra Virtual Labs Enhanced - main.js v1.5 (Performance Optimized)
 * Based on DevFolio, Modified by Kelvin Mafurendi & AI Assistant
 */
 (function() {
@@ -25,70 +25,115 @@
     }
   };
   
-  const onscroll = (el, listener) => {
-    el.addEventListener('scroll', listener);
+  // Cache DOM selectors for frequent use
+  const DOM = {
+    body: document.body,
+    header: document.getElementById('header'),
+    navbar: select('#navbar .scrollto', true),
+    preloader: document.getElementById('preloader'),
+    backtotop: select('.back-to-top')
   };
-
-  /* Navbar links active state on scroll */
-  let navbarlinks = select('#navbar .scrollto', true);
-  const navbarlinksActive = () => {
-    let position = window.scrollY + 200;
-    navbarlinks.forEach(navbarlink => {
-      if (!navbarlink.hash) return;
-      let section = select(navbarlink.hash);
-      if (!section) return;
-      if (position >= section.offsetTop && position <= (section.offsetTop + section.offsetHeight)) {
-        navbarlink.classList.add('active');
+  
+  // Consolidated scroll handler for better performance
+  const scrollHandler = () => {
+    const scrollPosition = window.scrollY;
+    
+    // Navbar links active state
+    if (DOM.navbar && DOM.navbar.length) {
+      const position = scrollPosition + 200;
+      DOM.navbar.forEach(navbarlink => {
+        if (!navbarlink.hash) return;
+        let section = select(navbarlink.hash);
+        if (!section) return;
+        if (position >= section.offsetTop && position <= (section.offsetTop + section.offsetHeight)) {
+          navbarlink.classList.add('active');
+        } else {
+          navbarlink.classList.remove('active');
+        }
+      });
+    }
+    
+    // Header scroll class
+    if (DOM.header) {
+      if (scrollPosition > 100) {
+        DOM.header.classList.add('header-scrolled');
       } else {
-        navbarlink.classList.remove('active');
+        DOM.header.classList.remove('header-scrolled');
       }
-    });
+    }
+    
+    // Back to top button visibility
+    if (DOM.backtotop) {
+      if (scrollPosition > 100) {
+        DOM.backtotop.classList.add('active');
+      } else {
+        DOM.backtotop.classList.remove('active');
+      }
+    }
   };
-  window.addEventListener('load', navbarlinksActive);
-  onscroll(document, navbarlinksActive);
+  
+  // Add a single scroll listener instead of multiple
+  window.addEventListener('scroll', scrollHandler, { passive: true });
 
   /* Scrolls to an element with header offset */
   const scrollto = (el) => {
-    let header = select('#header');
-    if (!header) return;
-    let offset = header.offsetHeight;
-    if (!header.classList.contains('header-scrolled')) {
+    if (!DOM.header) return;
+    
+    let offset = DOM.header.offsetHeight;
+    if (!DOM.header.classList.contains('header-scrolled')) {
       offset -= 8;
     }
-    let elementPos = select(el).offsetTop;
+    
+    const elementPos = select(el).offsetTop;
     window.scrollTo({
       top: elementPos - offset,
       behavior: 'smooth'
     });
   };
 
-  /* Toggle .header-scrolled class */
-  let selectHeader = select('#header');
-  if (selectHeader) {
-    const headerScrolled = () => {
-      if (window.scrollY > 100) {
-        selectHeader.classList.add('header-scrolled');
-      } else {
-        selectHeader.classList.remove('header-scrolled');
+  /* Mobile nav toggle */
+  on('click', '.mobile-nav-toggle', function(e) {
+    DOM.body.classList.toggle('mobile-nav-active');
+    this.classList.toggle('bi-list');
+    this.classList.toggle('bi-x');
+  });
+
+  /* Close mobile nav when clicking scrollto links */
+  on('click', '.scrollto', function(e) {
+    if (select(this.hash)) {
+      e.preventDefault();
+      
+      if (DOM.body.classList.contains('mobile-nav-active')) {
+        DOM.body.classList.remove('mobile-nav-active');
+        let navbarToggle = select('.mobile-nav-toggle');
+        navbarToggle.classList.toggle('bi-list');
+        navbarToggle.classList.toggle('bi-x');
       }
+      
+      scrollto(this.hash);
+    }
+  }, true);
+
+  /* Preloader with better fallback */
+  if (DOM.preloader) {
+    const removePreloader = () => {
+      DOM.preloader.remove();
     };
-    window.addEventListener('load', headerScrolled);
-    onscroll(document, headerScrolled);
+    
+    // Add listener for DOMContentLoaded to remove preloader earlier
+    document.addEventListener('DOMContentLoaded', () => {
+      // Use requestAnimationFrame for better performance
+      requestAnimationFrame(() => {
+        setTimeout(removePreloader, 500);
+      });
+    });
+    
+    // Backup timeout ensures preloader removal
+    setTimeout(removePreloader, 1500);
   }
 
-  /* Back to top button */
-  let backtotop = select('.back-to-top');
-  if (backtotop) {
-    const toggleBacktotop = () => {
-      if (window.scrollY > 100) {
-        backtotop.classList.add('active');
-      } else {
-        backtotop.classList.remove('active');
-      }
-    };
-    window.addEventListener('load', toggleBacktotop);
-    onscroll(document, toggleBacktotop);
-    
+  /* Back to top click handler */
+  if (DOM.backtotop) {
     on('click', '.back-to-top', function(e) {
       e.preventDefault();
       window.scrollTo({
@@ -98,291 +143,193 @@
     });
   }
 
-  /* Mobile nav toggle */
-  on('click', '.mobile-nav-toggle', function(e) {
-    select('body').classList.toggle('mobile-nav-active');
-    this.classList.toggle('bi-list');
-    this.classList.toggle('bi-x');
-  });
-
-  /* Close mobile nav when clicking scrollto links */
-  on('click', '.scrollto', function(e) {
-    if (select(this.hash)) {
-      e.preventDefault();
-      let body = select('body');
-      if (body.classList.contains('mobile-nav-active')) {
-        body.classList.remove('mobile-nav-active');
-        let navbarToggle = select('.mobile-nav-toggle');
-        navbarToggle.classList.toggle('bi-list');
-        navbarToggle.classList.toggle('bi-x');
-      }
-      scrollto(this.hash);
-    }
-  }, true);
-
-  /* Preloader */
-  let preloader = select('#preloader');
-  if (preloader) {
-    // Define the function to remove preloader
-    const removePreloader = () => {
-      preloader.remove();
-      console.log("Preloader removed successfully");
-    };
+  // Lazy-load initialization function for components
+  const initializeComponentWhenVisible = (selector, initFunction) => {
+    const component = select(selector);
+    if (!component) return;
     
-    // Add direct event listener to window load
-    window.addEventListener('load', removePreloader);
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          initFunction();
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
     
-    // Backup timeout to ensure it gets removed even if load event issues
-    setTimeout(() => {
-      if (document.getElementById('preloader')) {
-        removePreloader();
-      }
-    }, 1000);
-  }
+    observer.observe(component);
+  };
 
   /* Project Documentation PDF viewer */
   const initPDFViewer = () => {
     const pdfViewerModal = select('#pdfViewerModal');
-    if (pdfViewerModal) {
-      const pdfLinks = select('.pdf-viewer', true);
-      const pdfFrame = select('#pdfFrame');
-      const modalTitle = select('#pdfViewerModalLabel');
-      
-      if (typeof bootstrap !== 'undefined') {
-        const pdfModal = new bootstrap.Modal(pdfViewerModal);
-        
-        // Add click event to all PDF links
-        on('click', '.pdf-viewer', function(e) {
-          e.preventDefault();
-          
-          // Get PDF URL and title
-          const pdfUrl = this.getAttribute('href');
-          const pdfTitle = this.getAttribute('data-title') || 'Document Viewer';
-          
-          // Set modal title and iframe source
-          modalTitle.textContent = pdfTitle;
-          pdfFrame.src = pdfUrl;
-          
-          // Show modal
-          pdfModal.show();
-        }, true);
-        
-        // Clear iframe src when modal is closed to stop PDF loading
-        pdfViewerModal.addEventListener('hidden.bs.modal', function() {
-          pdfFrame.src = '';
-        });
-      } else {
-        console.error("Bootstrap library is not loaded");
-      }
-    }
-  };
-
-  /* Init Documents Isotope and Filters */
-  const initDocuments = () => {
-    let docsContainer = select('.docs-container');
-    if (docsContainer) {
-      try {
-        if (typeof Isotope !== 'undefined') {
-          let docsIsotope = new Isotope(docsContainer, {
-            itemSelector: '.docs-item',
-            layoutMode: 'fitRows'
-          });
-          
-          let docsFilters = select('#docs-filters li', true);
-          on('click', '#docs-filters li', function(e) {
-            e.preventDefault();
-            docsFilters.forEach(function(el) {
-              el.classList.remove('filter-active');
-            });
-            this.classList.add('filter-active');
-            
-            docsIsotope.arrange({
-              filter: this.getAttribute('data-filter')
-            });
-            if (typeof AOS !== 'undefined') {
-              AOS.refresh();
-            }
-          }, true);
-        } else {
-          console.error("Isotope library is not loaded");
-        }
-      } catch (e) {
-        console.error("Error initializing Documents Isotope:", e);
-      }
-    }
-  };
-
-  /* --- Functions to run AFTER window load --- */
-  window.addEventListener('load', () => {
-    console.log("Window load event triggered");
+    if (!pdfViewerModal) return;
     
-    /* Scroll to hash if exists */
-    if (window.location.hash) {
-      if (select(window.location.hash)) {
-        scrollto(window.location.hash);
-      }
+    const pdfFrame = select('#pdfFrame');
+    const modalTitle = select('#pdfViewerModalLabel');
+    
+    if (typeof bootstrap !== 'undefined') {
+      const pdfModal = new bootstrap.Modal(pdfViewerModal);
+      
+      // Add click event to all PDF links
+      on('click', '.pdf-viewer', function(e) {
+        e.preventDefault();
+        
+        // Get PDF URL and title
+        const pdfUrl = this.getAttribute('href');
+        const pdfTitle = this.getAttribute('data-title') || 'Document Viewer';
+        
+        // Set modal title and iframe source
+        modalTitle.textContent = pdfTitle;
+        pdfFrame.src = pdfUrl;
+        
+        // Show modal
+        pdfModal.show();
+      }, true);
+      
+      // Clear iframe src when modal is closed to stop PDF loading
+      pdfViewerModal.addEventListener('hidden.bs.modal', function() {
+        pdfFrame.src = '';
+      });
     }
+  };
 
-    /* Hero type effect */
-    const typedElement = select('.typed');
-    if (typedElement) {
+  /* Init Isotope and Filters - Generic function to reduce code duplication */
+  const initIsotope = (containerSelector, filterSelector, layoutMode = 'fitRows') => {
+    const container = select(containerSelector);
+    if (!container || typeof Isotope === 'undefined') return null;
+    
+    try {
+      const isotope = new Isotope(container, {
+        itemSelector: `${containerSelector.replace('.', '-').substring(1)}`,
+        layoutMode: layoutMode
+      });
+      
+      const filters = select(filterSelector, true);
+      if (!filters || !filters.length) return isotope;
+      
+      on('click', filterSelector, function(e) {
+        e.preventDefault();
+        
+        filters.forEach(el => el.classList.remove('filter-active'));
+        this.classList.add('filter-active');
+        
+        isotope.arrange({
+          filter: this.getAttribute('data-filter')
+        });
+        
+        if (typeof AOS !== 'undefined') {
+          AOS.refresh();
+        }
+      }, true);
+      
+      return isotope;
+    } catch (e) {
+      console.error(`Error initializing Isotope for ${containerSelector}:`, e);
+      return null;
+    }
+  };
+
+  /* Skills progress animation */
+  const initSkills = () => {
+    const skillsContent = select('#skills .skills-content');
+    if (!skillsContent) return;
+    
+    const skillsObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            select('.progress .progress-bar', true).forEach(el => {
+              el.style.width = el.getAttribute('aria-valuenow') + '%';
+            });
+            skillsObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+    
+    skillsObserver.observe(skillsContent);
+  };
+
+  /* Initialize critical components immediately */
+  window.addEventListener('DOMContentLoaded', () => {
+    // Init Skills (often above the fold)
+    initSkills();
+    
+    // Run scroll handler once to set initial states
+    scrollHandler();
+    
+    // If hash exists in URL, scroll to it
+    if (window.location.hash && select(window.location.hash)) {
+      // Wait a bit for page to stabilize
+      setTimeout(() => {
+        scrollto(window.location.hash);
+      }, 100);
+    }
+  });
+
+  /* Initialize non-critical components after load */
+  window.addEventListener('load', () => {
+    // Lazily initialize components when they become visible
+    initializeComponentWhenVisible('.typed', () => {
+      const typedElement = select('.typed');
+      if (!typedElement || typeof Typed === 'undefined') return;
+      
       let typed_strings = typedElement.getAttribute('data-typed-items');
       if (typed_strings) {
         typed_strings = typed_strings.split(',');
-        try {
-          if (typeof Typed !== 'undefined') {
-            new Typed('.typed', {
-              strings: typed_strings,
-              loop: true,
-              typeSpeed: 100,
-              backSpeed: 50,
-              backDelay: 2000
-            });
-            console.log("Typed.js initialized successfully");
-          } else {
-            console.error("Typed.js library is not loaded");
-          }
-        } catch (e) {
-          console.error("Error initializing Typed.js:", e);
-        }
+        new Typed('.typed', {
+          strings: typed_strings,
+          loop: true,
+          typeSpeed: 100,
+          backSpeed: 50,
+          backDelay: 2000
+        });
       }
-    }
-
-    /* Init Isotope Projects */
-    let projectsContainer = select('.projects-container');
-    if (projectsContainer) {
-      try {
-        if (typeof Isotope !== 'undefined') {
-          let projectsIsotope = new Isotope(projectsContainer, {
-            itemSelector: '.projects-item',
-            layoutMode: 'fitRows'
-          });
-          
-          let projectsFilters = select('#projects-filters li', true);
-          on('click', '#projects-filters li', function(e) {
-            e.preventDefault();
-            projectsFilters.forEach(function(el) {
-              el.classList.remove('filter-active');
-            });
-            this.classList.add('filter-active');
-            
-            projectsIsotope.arrange({
-              filter: this.getAttribute('data-filter')
-            });
-            if (typeof AOS !== 'undefined') {
-              AOS.refresh();
-            }
-          }, true);
-        } else {
-          console.error("Isotope library is not loaded");
-        }
-      } catch (e) {
-        console.error("Error initializing Projects Isotope:", e);
-      }
-    }
-
-    /* Init Isotope Photography */
-    let photographyContainer = select('.photography-container');
-    if (photographyContainer) {
-      try {
-        if (typeof Isotope !== 'undefined') {
-          let photographyIsotope = new Isotope(photographyContainer, {
-            itemSelector: '.photography-item',
-            layoutMode: 'masonry'
-          });
-          
-          let photographyFilters = select('#photography-filters li', true);
-          on('click', '#photography-filters li', function(e) {
-            e.preventDefault();
-            photographyFilters.forEach(function(el) {
-              el.classList.remove('filter-active');
-            });
-            this.classList.add('filter-active');
-            
-            photographyIsotope.arrange({
-              filter: this.getAttribute('data-filter')
-            });
-            if (typeof AOS !== 'undefined') {
-              AOS.refresh();
-            }
-          }, true);
-        } else {
-          console.error("Isotope library is not loaded");
-        }
-      } catch (e) {
-        console.error("Error initializing Photography Isotope:", e);
-      }
-    }
-
-    /* Init Isotope Writings */
-    let writingsContainer = select('.writings-container');
-    if (writingsContainer) {
-      try {
-        if (typeof Isotope !== 'undefined') {
-          let writingsIsotope = new Isotope(writingsContainer, {
-            itemSelector: '.writings-item',
-            layoutMode: 'fitRows'
-          });
-          
-          let writingsFilters = select('#writings-filters li', true);
-          on('click', '#writings-filters li', function(e) {
-            e.preventDefault();
-            writingsFilters.forEach(function(el) {
-              el.classList.remove('filter-active');
-            });
-            this.classList.add('filter-active');
-            
-            writingsIsotope.arrange({
-              filter: this.getAttribute('data-filter')
-            });
-            if (typeof AOS !== 'undefined') {
-              AOS.refresh();
-            }
-          }, true);
-        } else {
-          console.error("Isotope library is not loaded");
-        }
-      } catch (e) {
-        console.error("Error initializing Writings Isotope:", e);
-      }
-    }
-
-    /* Init Documents Isotope and PDF Viewer */
-    initDocuments();
-    initPDFViewer();
-
-    /* Init GLightbox */
-    try {
+    });
+    
+    // Lazily initialize Isotope components
+    initializeComponentWhenVisible('.projects-container', () => {
+      initIsotope('.projects-container', '#projects-filters li', 'fitRows');
+    });
+    
+    initializeComponentWhenVisible('.photography-container', () => {
+      initIsotope('.photography-container', '#photography-filters li', 'masonry');
+      
+      // Initialize GLightbox only when photography section is visible
       if (typeof GLightbox !== 'undefined') {
         GLightbox({
           selector: '.photography-lightbox'
         });
-      } else {
-        console.error("GLightbox library is not loaded");
       }
-    } catch (e) {
-      console.error("Error initializing GLightbox:", e);
+    });
+    
+    initializeComponentWhenVisible('.writings-container', () => {
+      initIsotope('.writings-container', '#writings-filters li', 'fitRows');
+    });
+    
+    initializeComponentWhenVisible('.docs-container', () => {
+      initIsotope('.docs-container', '#docs-filters li', 'fitRows');
+    });
+    
+    // Initialize PDF viewer
+    initPDFViewer();
+    
+    // Initialize AOS with reduced animation duration
+    if (typeof AOS !== 'undefined') {
+      AOS.init({
+        duration: 600, // Reduced from 800
+        easing: 'ease-in-out',
+        once: true, // Changed to true to prevent re-animation
+        mirror: false,
+        anchorPlacement: 'top-bottom',
+        disable: window.innerWidth < 768 ? true : false // Disable on mobile
+      });
     }
-
-    /* Init AOS */
-    try {
-      if (typeof AOS !== 'undefined') {
-        AOS.init({
-          duration: 800,
-          easing: 'ease-in-out',
-          once: false,
-          mirror: false,
-          anchorPlacement: 'top-bottom'
-        });
-      } else {
-        console.warn("AOS library is not loaded");
-      }
-    } catch (e) {
-      console.error("Error initializing AOS:", e);
-    }
-
-    /* Init Swiper Certificates */
-    try {
+    
+    // Initialize Swipers lazily
+    initializeComponentWhenVisible('.certificates-slider', () => {
       if (typeof Swiper !== 'undefined') {
         new Swiper('.certificates-slider', {
           speed: 600,
@@ -415,15 +362,10 @@
             prevEl: '.certificates-slider .swiper-button-prev'
           }
         });
-      } else {
-        console.error("Swiper library is not loaded");
       }
-    } catch (e) {
-      console.error("Error initializing Certificates Swiper:", e);
-    }
-
-    /* Init Swiper Videos */
-    try {
+    });
+    
+    initializeComponentWhenVisible('.videos-slider', () => {
       if (typeof Swiper !== 'undefined') {
         new Swiper('.videos-slider', {
           speed: 600,
@@ -457,31 +399,8 @@
             prevEl: '.videos-slider .swiper-button-prev'
           }
         });
-      } else {
-        console.error("Swiper library is not loaded");
       }
-    } catch (e) {
-      console.error("Error initializing Videos Swiper:", e);
-    }
+    });
   });
 
-  /* Skills observer */
-  const skillsContent = select('#skills .skills-content');
-  if (skillsContent) {
-    const skillsObserver = new IntersectionObserver(
-      (entries, observer) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            select('.progress .progress-bar', true).forEach(el => {
-              el.style.width = el.getAttribute('aria-valuenow') + '%';
-            });
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
-    skillsObserver.observe(skillsContent);
-  }
-
-})(); // End IIFE
+})(); // End 
