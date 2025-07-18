@@ -281,38 +281,8 @@
       }
     }
 
-    /* Init Isotope Photography */
-    let photographyContainer = select('.photography-container');
-    if (photographyContainer) {
-      try {
-        if (typeof Isotope !== 'undefined') {
-          let photographyIsotope = new Isotope(photographyContainer, {
-            itemSelector: '.photography-item',
-            layoutMode: 'masonry'
-          });
-          
-          let photographyFilters = select('#photography-filters li', true);
-          on('click', '#photography-filters li', function(e) {
-            e.preventDefault();
-            photographyFilters.forEach(function(el) {
-              el.classList.remove('filter-active');
-            });
-            this.classList.add('filter-active');
-            
-            photographyIsotope.arrange({
-              filter: this.getAttribute('data-filter')
-            });
-            if (typeof AOS !== 'undefined') {
-              AOS.refresh();
-            }
-          }, true);
-        } else {
-          console.error("Isotope library is not loaded");
-        }
-      } catch (e) {
-        console.error("Error initializing Photography Isotope:", e);
-      }
-    }
+  
+// ... this comes after the "Projects Isotope" code
 
     /* Init Isotope Writings */
     let writingsContainer = select('.writings-container');
@@ -354,8 +324,9 @@
     /* Init GLightbox */
     try {
       if (typeof GLightbox !== 'undefined') {
-        GLightbox({
-          selector: '.photography-lightbox'
+        const lightbox = GLightbox({
+          selector: '.photography-lightbox', // This selector still works perfectly!
+          gallery: 'photographyGallery'    // The gallery name matches what's in the HTML
         });
       } else {
         console.error("GLightbox library is not loaded");
@@ -463,8 +434,53 @@
     } catch (e) {
       console.error("Error initializing Videos Swiper:", e);
     }
-  });
 
+    /**
+     * <<<--- ADD THIS NEW BLOCK HERE --->>>
+     * Init Swiper Photography
+     */
+    try {
+      if (typeof Swiper !== 'undefined') {
+        new Swiper('.photography-slider', {
+          speed: 600,
+          loop: true,
+          autoplay: {
+            delay: 5000,
+            disableOnInteraction: false
+          },
+          slidesPerView: 'auto',
+          pagination: {
+            el: '#photography .swiper-pagination',
+            type: 'bullets',
+            clickable: true
+          },
+          navigation: {
+            nextEl: '#photography .swiper-button-next',
+            prevEl: '#photography .swiper-button-prev',
+          },
+          breakpoints: {
+            320: {
+              slidesPerView: 1,
+              spaceBetween: 20
+            },
+            768: {
+              slidesPerView: 2,
+              spaceBetween: 20
+            },
+            1200: {
+              slidesPerView: 3,
+              spaceBetween: 20
+            }
+          }
+        });
+      } else {
+        console.error("Swiper library is not loaded");
+      }
+    } catch (e) {
+      console.error("Error initializing Photography Swiper:", e);
+    }
+
+  });
   /* Skills observer */
   const skillsContent = select('#skills .skills-content');
   if (skillsContent) {
