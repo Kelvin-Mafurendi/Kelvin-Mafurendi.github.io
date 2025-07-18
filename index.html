@@ -1553,8 +1553,7 @@
         </div>
       </section>
       <!-- End Writings Section -->
-
-       <!-- ======= Photography Section ======= -->
+<!-- ======= Photography Section ======= -->
 <section id="photography" class="photography section-bg">
   <div class="container">
 
@@ -1563,12 +1562,27 @@
       <p>Capturing moments...</p>
     </div>
 
+    <!-- Filter Buttons - Re-introduced -->
+    <div class="row">
+      <div class="col-12 mb-4" data-aos="fade-up">
+        <div class="photography-filters">
+          <ul id="photography-filters">
+            <li data-filter="*" class="filter-active">All</li>
+            <li data-filter=".filter-nature">Nature</li>
+            <li data-filter=".filter-urban">Urban</li>
+            <li data-filter=".filter-portraits">Portraits</li>
+            <li data-filter=".filter-inspiration">Inspiration</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
     <!-- Swiper Container for Photography -->
     <div class="swiper photography-slider" data-aos="fade-up" data-aos-delay="100">
       <div class="swiper-wrapper">
 
-        <!-- Slide 1: Ancient Tree -->
-        <div class="swiper-slide">
+        <!-- Slide 1: Ancient Tree (filter-nature) -->
+        <div class="swiper-slide filter-nature">
           <div class="photography-card">
             <img src="PSX_20230724_220816.jpg" class="img-fluid" alt="A resilient, ancient tree standing alone." />
             <div class="photography-info">
@@ -1581,8 +1595,8 @@
           </div>
         </div>
 
-        <!-- Slide 2: Slow Night -->
-        <div class="swiper-slide">
+        <!-- Slide 2: Slow Night (filter-urban) -->
+        <div class="swiper-slide filter-urban">
           <div class="photography-card">
             <img src="PSX_20230320_191255.jpg" class="img-fluid" alt="Urban street at night with light trails from cars." />
             <div class="photography-info">
@@ -1595,8 +1609,8 @@
           </div>
         </div>
 
-        <!-- Slide 3: My Silhouette In the Fog -->
-        <div class="swiper-slide">
+        <!-- Slide 3: My Silhouette In the Fog (filter-portraits) -->
+        <div class="swiper-slide filter-portraits">
           <div class="photography-card">
             <img src="assets/img/PSX_20230628_183426.jpg" class="img-fluid" alt="Silhouette of a person standing in the fog." />
             <div class="photography-info">
@@ -1609,8 +1623,8 @@
           </div>
         </div>
 
-        <!-- Slide 4: Journey of a Mile -->
-        <div class="swiper-slide">
+        <!-- Slide 4: Journey of a Mile (filter-inspiration) -->
+        <div class="swiper-slide filter-inspiration">
           <div class="photography-card">
             <img src="assets/img/PSX_20230804_132747.jpg" class="img-fluid" alt="A long, straight road disappearing into the horizon." />
             <div class="photography-info">
@@ -1622,11 +1636,11 @@
             </div>
           </div>
         </div>
-        
-        <!-- Slide 5: The New Man from Adversity -->
-        <div class="swiper-slide">
+
+        <!-- Slide 5: The New Man from Adversity (filter-inspiration) -->
+        <div class="swiper-slide filter-inspiration">
           <div class="photography-card">
-            <img src="assets\img\file_000000006614622f881b060b939a98d8.png" class="img-fluid" alt="Inspirational quote about adversity creating a new man.">
+            <img src="assets\img\file_000000006614622f881b060b939a98d8.png" class="img-fluid" alt="Inspirational quote about adversity creating a new man." />
             <div class="photography-info">
               <h4>The New Man from Adversity</h4>
               <p>Inspiration</p>
@@ -1634,15 +1648,8 @@
             </div>
           </div>
         </div>
-        
-        <!-- Add other photo slides here following the same structure -->
-        <!-- Example:
-        <div class="swiper-slide">
-            <div class="photography-card">
-                ... (your card content) ...
-            </div>
-        </div>
-        -->
+
+        <!-- Continue adding the filter class (e.g., filter-inspiration, filter-nature) to each swiper-slide -->
 
       </div>
       <!-- Swiper Controls -->

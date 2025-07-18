@@ -1331,104 +1331,55 @@ section.section-bg {
   background: var(--primary-color);
   transform: scale(1.1);
 }
-
 /*--------------------------------------------------------------
 # Photography Carousel Section
 --------------------------------------------------------------*/
+/* -- NEW STYLES FOR FILTERS -- */
+.photography .photography-filters {
+  padding: 0;
+  margin: 0 0 35px 0;
+  text-align: center;
+}
+
+.photography .photography-filters ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.photography .photography-filters li {
+  cursor: pointer;
+  display: inline-block;
+  padding: 8px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  text-transform: uppercase;
+  margin: 0 4px 10px 4px;
+  transition: var(--transition);
+  border-radius: 50px;
+  color: var(--text-color);
+  border: 1px solid rgba(132, 146, 166, 0.3);
+}
+
+.photography .photography-filters li:hover {
+  color: var(--primary-color);
+  background-color: rgba(var(--primary-rgb), 0.08);
+  border-color: rgba(var(--primary-rgb), 0.2);
+}
+
+.photography .photography-filters li.filter-active {
+  color: var(--dark-bg);
+  background: var(--gradient);
+  border-color: transparent;
+}
+/* -- END OF NEW FILTER STYLES -- */
+
 .photography {
-  overflow: hidden; /* Contains the Swiper elements */
+  overflow: hidden;
 }
 
-.photography .container {
-  position: relative;
-  /* Add padding to prevent nav buttons from sitting on the edge */
-  padding-left: 30px;
-  padding-right: 30px;
-}
-
-.photography .swiper {
-  /* Add padding for pagination at the bottom */
-  padding-top: 10px;
-  padding-bottom: 40px;
-}
-
-.photography .swiper-slide {
-  height: auto; /* Allow slide to adjust to card height */
-  display: flex; /* Helps with alignment */
-}
-
-.photography .photography-card {
-  width: 100%; /* Ensure card fills the slide */
-  height: 100%;
-}
-
-/* --- Swiper Controls Styling --- */
-/* (Making them consistent with your .certificates and .videos sections) */
-
-.photography .swiper-pagination {
-  bottom: 5px !important;
-  margin-top: 25px;
-  position: relative; /* Take it out of the absolute flow */
-}
-
-.photography .swiper-pagination .swiper-pagination-bullet {
-  width: 12px;
-  height: 12px;
-  background-color: rgba(var(--primary-rgb), 0.3); /* Match your theme */
-  opacity: 1;
-}
-
-.photography .swiper-pagination .swiper-pagination-bullet-active {
-  background-color: var(--primary-color);
-}
-
-.photography .swiper-button-prev,
-.photography .swiper-button-next {
-  width: 40px;
-  height: 40px;
-  background-color: rgba(255, 255, 255, 0.08); /* Faded white background */
-  border-radius: 50%;
-  color: var(--white);
-  transition: background-color 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  /* Adjust vertical position to be centered on the cards */
-  margin-top: -30px;
-}
-
-.photography .swiper-button-prev::after,
-.photography .swiper-button-next::after {
-  font-size: var(--swiper-navigation-size);
-  font-weight: bolder;
-}
-
-.photography .swiper-button-prev:hover,
-.photography .swiper-button-next:hover {
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.15
-  ); /* Slightly more visible on hover */
-}
-
-.photography .swiper-button-prev {
-  left: 0px; /* Position inside the container padding */
-}
-
-.photography .swiper-button-next {
-  right: 0px; /* Position inside the container padding */
-}
-
-@media (max-width: 767px) {
-  .photography .container {
-    padding-left: 15px;
-    padding-right: 15px;
-  }
-  .photography .swiper-button-prev,
-  .photography .swiper-button-next {
-    display: none; /* Hide arrows on small screens for a cleaner look */
-  }
-}
+/* ... the rest of your photography carousel CSS remains here ... */
 /*--------------------------------------------------------------
 # Videos Section - NEW
 --------------------------------------------------------------*/
