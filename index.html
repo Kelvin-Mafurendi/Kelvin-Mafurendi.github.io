@@ -1980,6 +1980,125 @@
       defer
     ></script>
 
+    <script>
+// Enhanced form handling
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('contact-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const submitText = document.getElementById('submit-text');
+    const submitSpinner = document.getElementById('submit-spinner');
+    const formMessages = document.getElementById('form-messages');
+    const successMessage = document.getElementById('success-message');
+    const errorMessage = document.getElementById('error-message');
+    const loadingMessage = document.getElementById('loading-message');
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Show loading state
+        submitBtn.disabled = true;
+        submitText.style.display = 'none';
+        submitSpinner.style.display = 'inline';
+        formMessages.style.display = 'block';
+        loadingMessage.style.display = 'block';
+        successMessage.style.display = 'none';
+        errorMessage.style.display = 'none';
+
+        // Get form data
+        const formData = new FormData(form);
+
+        // Send to Formspree
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                // Success
+                loadingMessage.style.display = 'none';
+                successMessage.style.display = 'block';
+                form.reset();
+                
+                // Scroll to success message
+                successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else {
+                throw new Error('Network response was not ok');
+            }
+        })
+        .catch(error => {
+            // Error
+            loadingMessage.style.display = 'none';
+            errorMessage.style.display = 'block';
+            console.error('Error:', error);
+            
+            // Scroll to error message
+            errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        })
+        .finally(() => {
+            // Reset button state
+            submitBtn.disabled = false;
+            submitText.style.display = 'inline';
+            submitSpinner.style.display = 'none';
+            
+            // Hide messages after 10 seconds
+            setTimeout(() => {
+                formMessages.style.display = 'none';
+            }, 10000);
+        });
+    });
+});
+</script>
+
+<style>
+/* Additional CSS for form feedback */
+.alert {
+    padding: 12px 20px;
+    border-radius: 6px;
+    margin-bottom: 15px;
+    border: none;
+    font-size: 14px;
+}
+
+.alert-success {
+    background-color: #d1edff;
+    color: #0c5460;
+    border-left: 4px solid #17a2b8;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #721c24;
+    border-left: 4px solid #dc3545;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    color: #0c5460;
+    border-left: 4px solid #17a2b8;
+}
+
+.alert i {
+    margin-right: 8px;
+}
+
+#submit-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#submit-spinner i {
+    animation: spin 1s linear infinite;
+}
+</style>
+
     <!-- Template Main JS File -->
     <script>
       document.getElementById("copyright-year").textContent =
