@@ -321,19 +321,7 @@
     initDocuments();
     initPDFViewer();
 
-    /* Init GLightbox */
-    try {
-      if (typeof GLightbox !== 'undefined') {
-        const lightbox = GLightbox({
-          selector: '.photography-lightbox', // This selector still works perfectly!
-          gallery: 'photographyGallery'    // The gallery name matches what's in the HTML
-        });
-      } else {
-        console.error("GLightbox library is not loaded");
-      }
-    } catch (e) {
-      console.error("Error initializing GLightbox:", e);
-    }
+   
 
     /* Init AOS */
     try {
@@ -435,50 +423,7 @@
       console.error("Error initializing Videos Swiper:", e);
     }
 
-    /**
-     * <<<--- ADD THIS NEW BLOCK HERE --->>>
-     * Init Swiper Photography
-     */
-    try {
-      if (typeof Swiper !== 'undefined') {
-        new Swiper('.photography-slider', {
-          speed: 600,
-          loop: true,
-          autoplay: {
-            delay: 5000,
-            disableOnInteraction: false
-          },
-          slidesPerView: 'auto',
-          pagination: {
-            el: '#photography .swiper-pagination',
-            type: 'bullets',
-            clickable: true
-          },
-          navigation: {
-            nextEl: '#photography .swiper-button-next',
-            prevEl: '#photography .swiper-button-prev',
-          },
-          breakpoints: {
-            320: {
-              slidesPerView: 1,
-              spaceBetween: 20
-            },
-            768: {
-              slidesPerView: 2,
-              spaceBetween: 20
-            },
-            1200: {
-              slidesPerView: 3,
-              spaceBetween: 20
-            }
-          }
-        });
-      } else {
-        console.error("Swiper library is not loaded");
-      }
-    } catch (e) {
-      console.error("Error initializing Photography Swiper:", e);
-    }
+  
 
   });
   /* Skills observer */

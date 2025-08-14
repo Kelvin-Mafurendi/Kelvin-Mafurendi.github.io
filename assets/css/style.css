@@ -1379,6 +1379,26 @@ section.section-bg {
   overflow: hidden;
 }
 
+.loading-spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    font-size: 18px;
+    color: #6c757d;
+}
+
+.error-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    font-size: 16px;
+    color: #dc3545;
+    background: #f8f9fa;
+    border-radius: 10px;
+    text-align: center;
+}
 /* ... the rest of your photography carousel CSS remains here ... */
 /*--------------------------------------------------------------
 # Videos Section - NEW
