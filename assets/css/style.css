@@ -1,5 +1,5 @@
 /*--------------------------------------------------------------
-# Spectra Virtual Labs — Design System v2.0
+# Spectra Virtual Labs - Design System v2.0
 # Kelvin Mafurendi · Electrical Engineering / Cyberphysical Systems
 --------------------------------------------------------------*/
 
@@ -80,7 +80,7 @@ h1, h2, h3, h4, h5, h6 {
 
 img { max-width: 100%; }
 
-/* Eyebrow / section labels — mono, uppercase, tracked out.
+/* Eyebrow / section labels - mono, uppercase, tracked out.
    Justified: this person writes code/comments for a living;
    the // motif reads as annotation, not decoration. */
 .eyebrow {
@@ -112,7 +112,7 @@ img { max-width: 100%; }
 section { padding: 100px 0; position: relative; }
 .section-bg { background-color: var(--paper-dim); }
 
-/* Quiet sections — Writings / Photography / Fun Corner.
+/* Quiet sections - Writings / Photography / Fun Corner.
    Same system, turned down: smaller type, tighter rhythm,
    muted eyebrow, so they read as "also true about me"
    rather than competing with Projects/Certificates. */
@@ -122,7 +122,7 @@ section { padding: 100px 0; position: relative; }
 .section-quiet .eyebrow { color: var(--ink-faint); }
 .section-quiet .eyebrow::before { color: var(--ink-faint); }
 
-/* Signal divider — the signature motif: a thin animated
+/* Signal divider - the signature motif: a thin animated
    waveform trace used between major sections. */
 .signal-divider {
   width: 100%;
@@ -195,25 +195,28 @@ section { padding: 100px 0; position: relative; }
 }
 
 .brand-mark {
-  display: inline-flex; align-items: center; gap: 12px;
+  display: inline-flex; align-items: center; gap: 13px;
   color: var(--ink);
 }
 .brand-mark:hover { color: var(--ink); }
-.brand-emblem { display: inline-flex; width: 36px; height: 36px; flex-shrink: 0; }
-.brand-emblem svg { width: 100%; height: 100%; display: block; }
-.brand-emblem .hex { fill: none; stroke: var(--ink); stroke-width: 1.6; transition: stroke 0.3s var(--ease); }
-.brand-mark:hover .hex { stroke: var(--accent); }
-.brand-emblem .wave { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linecap: round; }
-.brand-text { display: flex; flex-direction: column; line-height: 1.15; }
+.brand-plate {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 46px; height: 46px; flex-shrink: 0;
+  border-radius: 9px;
+  background: linear-gradient(160deg, #2c3033 0%, #58595f 100%);
+  padding: 6px;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06), var(--shadow-sm);
+}
+.brand-plate img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.brand-text { display: flex; flex-direction: column; line-height: 1.05; }
 .brand-name {
-  font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 18px;
-  letter-spacing: 0.01em; color: var(--ink);
+  font-family: "Rajdhani", sans-serif; font-weight: 700; font-size: 23px;
+  letter-spacing: 0.015em; color: var(--ink);
 }
 .brand-sub {
   font-family: "IBM Plex Mono", monospace; font-size: 9px; font-weight: 500;
-  letter-spacing: 0.11em; text-transform: uppercase; color: var(--ink-faint); margin-top: 2px;
+  letter-spacing: 0.11em; text-transform: uppercase; color: var(--ink-faint); margin-top: 3px;
 }
-.brand-code { color: var(--accent); }
 
 .navbar { padding: 0; }
 .navbar ul { margin: 0; padding: 0; display: flex; list-style: none; align-items: center; }
@@ -375,7 +378,7 @@ section { padding: 100px 0; position: relative; }
 }
 .social-links a:hover { background: var(--ink); border-color: var(--ink); color: var(--paper); transform: translateY(-2px); }
 
-/* Hero portrait — your photo, framed, with the oscilloscope trace
+/* Hero portrait - your photo, framed, with the oscilloscope trace
    living as an animated lower-third readout instead of a separate
    abstract card. Signature element + likeness, in one composition. */
 .hero-portrait {
@@ -396,14 +399,7 @@ section { padding: 100px 0; position: relative; }
   pointer-events: none;
   z-index: 2;
 }
-.portrait-tag {
-  position: absolute; top: 14px; left: 14px; z-index: 3;
-  font-family: "IBM Plex Mono", monospace; font-size: 9.5px; font-weight: 500;
-  letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.9);
-  background: rgba(14,16,22,0.55); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
-  border: 1px solid rgba(255,255,255,0.22);
-  border-radius: 999px; padding: 5px 11px;
-}
+
 .hero-portrait img {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
   object-position: center center;
@@ -458,7 +454,7 @@ section { padding: 100px 0; position: relative; }
   color: var(--ink-faint); text-transform: uppercase; letter-spacing: 0.03em;
 }
 
-/* Entrance choreography — a nod to the old zoom-in, restrained */
+/* Entrance choreography - a nod to the old zoom-in, restrained */
 #hero .hero-content { animation: hero-rise 0.9s var(--ease) both; }
 #hero .hero-visual { animation: hero-rise 0.9s var(--ease) 0.15s both; }
 @keyframes hero-rise {
@@ -822,7 +818,7 @@ section { padding: 100px 0; position: relative; }
 }
 .footer-mark .brand-name, .footer-mark .brand-sub { color: var(--on-dark); }
 .footer-mark .brand-sub { color: rgba(163,167,181,0.75); }
-.footer-mark .hex { stroke: rgba(236,234,227,0.55); }
+.footer-mark .brand-plate { box-shadow: inset 0 0 0 1px rgba(255,255,255,0.1), 0 0 0 1px rgba(255,255,255,0.05); }
 .footer-tagline { color: var(--on-dark-soft); font-size: 14px; margin: 18px 0 16px; max-width: 320px; }
 .footer-status {
   display: inline-flex; align-items: center; gap: 8px;
