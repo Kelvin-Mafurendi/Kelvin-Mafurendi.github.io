@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Where the model meets the motor, Kelvin Mafurendi</title>
+  <meta name="description" content="A digital twin of an induction motor, built twice: once from physics and once from data, then tested against the real machine." />
+  <link rel="icon" href="../assets/img/favicon.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/site/site.css" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-head"><div class="wrap"><a class="brand" href="../index.html">Kelvin Mafurendi</a><nav class="nav nav-static" aria-label="Main"><a href="../index.html#projects">All projects</a></nav></div></header>
+  <main id="main" class="story b">
+    <div class="story-hero"><div class="wrap">
+      <a class="back" href="../index.html#projects">Back to projects</a>
+      <ul class="tags project-tags"><li><span class="dot b"></span>Embedded and modelling</li></ul>
+      <h1>Where the model meets the motor</h1>
+      <p class="dek">A digital twin of an induction motor, built twice: once from physics and once from data, then tested against the real machine.</p>
+      <dl class="story-meta"><div><dt>When</dt><dd>Honours research, 2025</dd></div><div><dt>My role</dt><dd>Sole researcher, supervised</dd></div><div><dt>Tools</dt><dd>TI C2000, ESP32, MATLAB/Simulink</dd></div></dl>
+    </div></div>
+    <div class="story-body"><div class="wrap"><div class="col">
+      <h2>The question</h2>
+<p>Digital twins promise a live virtual copy of a machine that you can use to predict faults or test changes safely. But there are two very different ways to build one. You can write down the physics, or you can let a model learn the behaviour from measurements. I wanted to know which one actually holds up when it has to track a real motor in real time.</p>
+<figure class="pair"><img src="../assets/img/web/dt-motor.jpg" alt="The 1.75 kW induction motor on the test bench" loading="lazy" /><img src="../assets/img/web/dt-sensors.jpg" alt="Sensor boards built for voltage, current and speed" loading="lazy" /><figcaption>The test rig: a 1.75 kW, four-pole induction motor, with sensor boards I designed and built for the project.</figcaption></figure>
+<h2>Getting honest data out of a noisy machine</h2>
+<p>Before any model could be trusted, the measurements had to be. A TI C2000 DSP sampled three voltages, three currents, speed and temperature at 2 kHz. The first voltage readings swung 15 to 20% from noise alone. Second-order anti-aliasing filters, a single star-point ground, shielded cables and isolated sensor boards brought that down to about 2%.</p>
+<p>The next problem was quieter and worse. Data was streamed over UART to an ESP32 for logging, and three packets in every four were silently lost at the data rate the project needed. I moved the link to SPI, with the DSP in charge of timing, and valid capture went from about 25% to about 98%.</p>
+<div class="numbers"><div><b>2%</b><span>voltage noise, down from 15–20%</span></div><div><b>98%</b><span>valid data captured, up from about 25%</span></div><div><b>2 kHz</b><span>sampling on every channel</span></div></div>
+<h2>Two models of the same machine</h2>
+<p>The physics model came from the textbook equations of an induction motor, with parameters measured on the real machine through standard DC, locked-rotor and no-load tests. The data model came from system identification: I drove the motor through four designed excitation profiles, collected over a million samples, and fitted a seventh-order state-space model that matched 97% of the training data.</p>
+<figure class="wide"><img src="../assets/img/web/dt-excitation.jpg" alt="One of the excitation profiles used to train the data-driven model: three-phase currents, voltages and speed." loading="lazy" /><figcaption>One of the excitation profiles used to train the data-driven model: three-phase currents, voltages and speed.</figcaption></figure>
+<h2>What the motor revealed</h2>
+<p>Comparing both models against the motor raised a problem: a model can look wrong because the model is wrong, or because the sensors are. So I tested each model twice, once against real measurements and once against clean signals from an ideal reference machine. That separated measurement error from modelling error.</p>
+<figure class="wide"><img src="../assets/img/web/dt-compare.jpg" alt="Steady-state comparison: measured current against the physics-based (white-box) and data-driven (black-box) predictions." loading="lazy" /><figcaption>Steady-state comparison: measured current against the physics-based (white-box) and data-driven (black-box) predictions.</figcaption></figure>
+<p>Each model failed in a different place. The physics model predicted the starting current surge within 9.1%, but drifted badly once it was fed imperfect real data. The data model stayed within 6.4% in steady running but could not reproduce the fast transients it had rarely seen in training.</p>
+<h2>What I would build next</h2>
+<p>The obvious next step is a hybrid: keep the physics as the backbone, and let the data correct its parameters as the machine runs, using an extended Kalman filter. More broadly, the project taught me that the hard part of putting intelligence into machines is rarely the model. It is the gap between the model and the hardware.</p>
+    </div></div></div>
+    <div class="wrap story-next"><a href="../index.html#projects">Back to all projects</a><a href="part-painting.html">Next: Running a factory line from a phone</a></div>
+  </main>
+</body>
+</html>

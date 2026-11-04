@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Running a factory line from a phone, Kelvin Mafurendi</title>
+  <meta name="description" content="Firmware that loads, paints, colour-checks and sorts parts on a simulated production line, with live control from a mobile dashboard." />
+  <link rel="icon" href="../assets/img/favicon.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/site/site.css" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-head"><div class="wrap"><a class="brand" href="../index.html">Kelvin Mafurendi</a><nav class="nav nav-static" aria-label="Main"><a href="../index.html#projects">All projects</a></nav></div></header>
+  <main id="main" class="story b">
+    <div class="story-hero"><div class="wrap">
+      <a class="back" href="../index.html#projects">Back to projects</a>
+      <ul class="tags project-tags"><li><span class="dot b"></span>Embedded and control</li></ul>
+      <h1>Running a factory line from a phone</h1>
+      <p class="dek">Firmware that loads, paints, colour-checks and sorts parts on a simulated production line, with live control from a mobile dashboard.</p>
+      <dl class="story-meta"><div><dt>When</dt><dd>Computer Systems III, 2024</dd></div><div><dt>My role</dt><dd>Individual project</dd></div><div><dt>Tools</dt><dd>STM32, Mbed OS, C/C++, MQTT</dd></div></dl>
+    </div></div>
+    <div class="story-body"><div class="wrap"><div class="col">
+      <h2>The brief</h2>
+<p>Build the controller for a part-painting line: raw aluminium parts arrive, get loaded onto a rotating buffer wheel, painted in a chosen colour sequence, checked by a colour sensor and sorted into hopper tubes. The line was a physics simulation driven over serial by a real STM32 board, so every timing and positioning problem was real.</p>
+<figure class="wide"><img src="../assets/img/web/iot-factory.jpg" alt="The simulated line: hopper, buffer wheel, paint gun, lift and sorting tubes." loading="lazy" /><figcaption>The simulated line: hopper, buffer wheel, paint gun, lift and sorting tubes.</figcaption></figure>
+<h2>Thinking in states</h2>
+<p>I sketched the process on paper first, then built it as a finite-state machine: each step waits for a sensor before moving on. Test and production modes, a pause that resumes exactly where it stopped, and an emergency stop that overrides everything are all states in the same machine.</p>
+<figure class="wide"><img src="../assets/img/web/iot-sketch.jpg" alt="Early hand sketch of the state machine." loading="lazy" /><figcaption>Early hand sketch of the state machine.</figcaption></figure>
+<h2>Two threads, one controller</h2>
+<p>Wi-Fi is unreliable, and a factory should not stop because a phone lost signal. So the firmware runs on Mbed OS with two threads: one runs the process, the other handles Wi-Fi and MQTT through an ESP8266. If the network drops, the line keeps running.</p>
+<figure class="pair"><img src="../assets/img/web/iot-board.jpg" alt="STM32 NUCLEO with switch and LED shield" loading="lazy" /><img src="../assets/img/web/iot-dashboard.jpg" alt="Mobile dashboard" loading="lazy" /><figcaption>The controller board, and the dashboard it reports to: live counts, sorting statistics, recipe selection and remote pause and continue.</figcaption></figure>
+<h2>When parts go missing</h2>
+<p>Simulated parts fall off, jam and get stuck, just like real ones. Timers catch cylinders that take too long to extend, parts that never arrive and parts lost after unloading. The system reports each fault to the dashboard and carries on where it safely can.</p>
+<p>Some faults it could not handle, and the write-up says so. Because colours were assigned when parts were loaded, one lost part shifted the whole colour sequence. In hindsight, deciding the colour when each part reaches the sensor would make sorting far more robust.</p>
+    </div></div></div>
+    <div class="wrap story-next"><a href="../index.html#projects">Back to all projects</a><a href="pov-display.html">Next: Painting words in the air</a></div>
+  </main>
+</body>
+</html>

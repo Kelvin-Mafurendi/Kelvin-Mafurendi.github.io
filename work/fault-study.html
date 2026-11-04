@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Every fault, at every bus, Kelvin Mafurendi</title>
+  <meta name="description" content="Working out by hand what happens to an 11-bus power network during a short circuit, then checking it against a full simulation." />
+  <link rel="icon" href="../assets/img/favicon.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/site/site.css" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-head"><div class="wrap"><a class="brand" href="../index.html">Kelvin Mafurendi</a><nav class="nav nav-static" aria-label="Main"><a href="../index.html#projects">All projects</a></nav></div></header>
+  <main id="main" class="story r">
+    <div class="story-hero"><div class="wrap">
+      <a class="back" href="../index.html#projects">Back to projects</a>
+      <ul class="tags project-tags"><li><span class="dot r"></span>Power and protection</li></ul>
+      <h1>Every fault, at every bus</h1>
+      <p class="dek">Working out by hand what happens to an 11-bus power network during a short circuit, then checking it against a full simulation.</p>
+      <dl class="story-meta"><div><dt>When</dt><dd>Electrical Power Systems, 2025</dd></div><div><dt>My role</dt><dd>Individual coursework</dd></div><div><dt>Tools</dt><dd>MATLAB, PowerWorld Simulator</dd></div></dl>
+    </div></div>
+    <div class="story-body"><div class="wrap"><div class="col">
+      <h2>Why it matters</h2>
+<p>Protection relays decide in milliseconds whether to trip a breaker. Their settings come from fault studies like this one: how much current flows, and where, when something shorts. I test those relays at work, so this was the theory behind my day job.</p>
+<figure class="wide"><img src="../assets/img/web/11-bus.jpg" alt="The network: 11 buses, three generators in service and a standby generator, feeding an 11 kV ring." loading="lazy" /><figcaption>The network: 11 buses, three generators in service and a standby generator, feeding an 11 kV ring.</figcaption></figure>
+<h2>By hand first</h2>
+<p>Every impedance was converted to a common 100 MVA base. From there I built the network matrices and the positive, negative and zero sequence networks that describe unbalanced faults. MATLAB then calculated three-phase, single-line-to-ground and line-to-line fault currents at every bus, plus how much each generator contributed.</p>
+<h2>Earthing</h2>
+<p>Earth faults can be limited with a resistor between a generator's neutral and ground. I sized these resistors to hold earth-fault current to about a tenth of the three-phase fault level, and modelled an earthing point on the 11 kV ring.</p>
+<h2>Then the check</h2>
+<p>I rebuilt the network in PowerWorld Simulator and compared the results. The calculated fault currents agreed within 0.01% at all 11 buses.</p>
+<figure class="narrow"><img src="../assets/img/web/ybus-match.jpg" alt="Agreement between the MATLAB and PowerWorld network matrices, bus by bus." loading="lazy" /><figcaption>Agreement between the MATLAB and PowerWorld network matrices, bus by bus.</figcaption></figure>
+    </div></div></div>
+    <div class="wrap story-next"><a href="../index.html#projects">Back to all projects</a><a href="agroll.html">Next: AgRoll: farm records in one place</a></div>
+  </main>
+</body>
+</html>

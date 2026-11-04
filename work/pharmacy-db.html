@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>A database for a pharmacy network, Kelvin Mafurendi</title>
+  <meta name="description" content="The data model behind dispensing software shared by a group of pharmacies." />
+  <link rel="icon" href="../assets/img/favicon.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/site/site.css" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-head"><div class="wrap"><a class="brand" href="../index.html">Kelvin Mafurendi</a><nav class="nav nav-static" aria-label="Main"><a href="../index.html#projects">All projects</a></nav></div></header>
+  <main id="main" class="story s">
+    <div class="story-hero"><div class="wrap">
+      <a class="back" href="../index.html#projects">Back to projects</a>
+      <ul class="tags project-tags"><li><span class="dot s"></span>Software</li></ul>
+      <h1>A database for a pharmacy network</h1>
+      <p class="dek">The data model behind dispensing software shared by a group of pharmacies.</p>
+      <dl class="story-meta"><div><dt>When</dt><dd>Harvard CS50 SQL, 2024</dd></div><div><dt>My role</dt><dd>Individual final project</dd></div><div><dt>Tools</dt><dd>SQL, SQLite</dd></div></dl>
+    </div></div>
+    <div class="story-body"><div class="wrap"><div class="col">
+      <h2>The problem</h2>
+<p>When patients use several branches of the same pharmacy group, each branch should see the same history: prescriptions, allergies and what was dispensed, by whom and when. The database also needs to track stock, expiry dates and suppliers.</p>
+<h2>The design</h2>
+<p>The schema links pharmacies, staff, patients, prescriptions, drugs and suppliers, with every dispensing event recorded against the staff member and patient involved. Financial accounting and compliance records were deliberately left out of scope.</p>
+<figure class="wide"><img src="../assets/img/web/pharmacy-db.jpg" alt="Entity relationship diagram." loading="lazy" /><figcaption>Entity relationship diagram.</figcaption></figure>
+<p>The code is on <a href="https://github.com/Kelvin-Mafurendi/Pharmacy-Database" target="_blank" rel="noopener">GitHub</a>, and the <a href="https://www.youtube-nocookie.com/embed/I2rPkNZTj1o" target="_blank" rel="noopener">video overview</a> explains the design.</p>
+    </div></div></div>
+    <div class="wrap story-next"><a href="../index.html#projects">Back to all projects</a><a href="digital-twin.html">Next: Where the model meets the motor</a></div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Painting words in the air, Kelvin Mafurendi</title>
+  <meta name="description" content="A spinning LED display that shows any message you type on a laptop, sent over Bluetooth." />
+  <link rel="icon" href="../assets/img/favicon.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/site/site.css" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="site-head"><div class="wrap"><a class="brand" href="../index.html">Kelvin Mafurendi</a><nav class="nav nav-static" aria-label="Main"><a href="../index.html#projects">All projects</a></nav></div></header>
+  <main id="main" class="story b">
+    <div class="story-hero"><div class="wrap">
+      <a class="back" href="../index.html#projects">Back to projects</a>
+      <ul class="tags project-tags"><li><span class="dot b"></span>Embedded</li></ul>
+      <h1>Painting words in the air</h1>
+      <p class="dek">A spinning LED display that shows any message you type on a laptop, sent over Bluetooth.</p>
+      <dl class="story-meta"><div><dt>When</dt><dd>BEngTech capstone, 2023</dd></div><div><dt>My role</dt><dd>Design, build and code</dd></div><div><dt>Tools</dt><dd>STM32, C++, KiCad, Visual Basic</dd></div></dl>
+    </div></div>
+    <div class="story-body"><div class="wrap"><div class="col">
+      <h2>The idea</h2>
+<p>Shop signs are static: change the advert and you need a new sign. A persistence-of-vision display spins a column of LEDs fast enough that the eye sees a still image, and the image can change whenever you like. My goal was a display any shop could update from a laptop.</p>
+<figure class="wide"><img src="../assets/img/web/pov-app.jpg" alt="The Windows control app: type two words, pick colours, preview and send." loading="lazy" /><figcaption>The Windows control app: type two words, pick colours, preview and send.</figcaption></figure>
+<h2>Building the hardware</h2>
+<p>I designed the circuits in KiCad and soldered them onto Veroboard. Two columns of RGB LEDs are driven by six shift registers, one per colour per column, so a single microcontroller can control dozens of LEDs. Everything on the rotor runs from a 9 V battery through a regulator, and a 3D-printed holder keeps it balanced.</p>
+<figure class="pair"><img src="../assets/img/web/pov-board.jpg" alt="Rotor board with the STM32 and shift registers" loading="lazy" /><img src="../assets/img/web/pov-frame.jpg" alt="Perspex frame with the motor and drive" loading="lazy" /><figcaption>The rotor board, and the laser-cut Perspex frame that houses the motor and drive electronics.</figcaption></figure>
+<h2>Plans changed</h2>
+<p>The original design used a brushless motor with built-in position sensors, which would have kept the image locked in place. Halfway through, the driver chip I had ordered turned out to be incompatible with the motor. With the deadline close, I switched to a brushed DC motor and an H-bridge driven from a second STM32. It worked, but without position feedback the image drifts.</p>
+<h2>The software</h2>
+<p>Two pieces of code talk to each other. A Visual Basic app turns the message into a framed packet and sends it over Bluetooth. Mbed C++ firmware on the STM32 decodes it into LED patterns, using a shift-register driver class I wrote for the project.</p>
+<p>If I built it again, I would start with motor position sensing. Synchronising the LEDs to the rotor angle is what turns a flickering message into a stable image.</p>
+    </div></div></div>
+    <div class="wrap story-next"><a href="../index.html#projects">Back to all projects</a><a href="motor-control.html">Next: When the simulation lies</a></div>
+  </main>
+</body>
+</html>
