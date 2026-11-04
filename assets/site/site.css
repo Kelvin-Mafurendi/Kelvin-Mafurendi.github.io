@@ -75,15 +75,13 @@ a:hover { color: var(--ink); }
 .hero > .wrap { position: relative; z-index: 1; }
 /* Faint full-width landscape photo behind the hero, fading out at the bottom. */
 .hero-bg {
-  position: absolute; z-index: 0; inset: 0;
-  background: url("../img/web/hero-landscape.jpg") center top / cover no-repeat;
+  position: absolute; z-index: 0; top: 0; left: 0; width: 100%;
+  aspect-ratio: 3 / 2;
+  background: url("../img/web/hero-landscape.jpg") center top / 100% auto no-repeat;
   opacity: .18;
-  -webkit-mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
-          mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 75%, transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 75%, transparent 100%);
   pointer-events: none;
-}
-@media (max-width: 720px) {
-  .hero-bg { background-position: 72% top; opacity: .12; }
 }
 .hero h1 {
   font-family: var(--display);
