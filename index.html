@@ -10,10 +10,13 @@
   <meta property="og:image" content="https://kelvin-mafurendi.github.io/assets/img/web/portrait.jpg" />
   <meta property="og:type" content="website" />
   <link rel="icon" href="assets/img/favicon.jpg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet" />
+  <meta name="theme-color" content="#071c24" />
+  <link rel="canonical" href="https://kelvin-mafurendi.github.io/" />
+  <link rel="preload" href="assets/site/fonts/archivo-var.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="stylesheet" href="assets/site/site.css" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Person","name":"Kelvin Mafurendi","jobTitle":"Electrical Engineer","url":"https://kelvin-mafurendi.github.io/","image":"https://kelvin-mafurendi.github.io/assets/img/web/portrait.jpg","alumniOf":"Nelson Mandela University","address":{"@type":"PostalAddress","addressLocality":"Gqeberha","addressCountry":"ZA"},"sameAs":["https://www.linkedin.com/in/kelvin-mafurendi-4a3637233/","https://github.com/Kelvin-Mafurendi","https://www.kaggle.com/kevido","https://medium.com/@mafurendiofficial"]}
+  </script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -36,29 +39,36 @@
   <main id="main">
     <!-- Hero -->
     <div class="hero" id="top">
-      <div class="hero-bg" aria-hidden="true"></div>
-      <div class="wrap">
-        <h1>Kelvin<br />Mafurendi</h1>
-        <p class="lede">Electrical engineer. I test the protection and control systems that keep renewable power plants safe, and I build the embedded hardware and models that predict how machines behave.</p>
-        <ul class="hero-facts">
-          <li>BEngTech (Hons), Nelson Mandela University</li>
-          <li>Candidate Engineering Technologist (ECSA)</li>
-          <li>Gqeberha, South Africa</li>
-        </ul>
-        <div class="actions">
-          <a class="btn btn-solid" href="#projects">See the work</a>
-          <a class="btn btn-line" href="#contact">Say hello</a>
+      <div class="hero-top">
+        <div class="hero-portrait" aria-hidden="true"></div>
+        <div class="wrap">
+          <h1><span class="line"><span>Kelvin</span></span> <span class="line"><span>Mafurendi</span></span></h1>
+          <p class="lede">Electrical engineer. I test the protection and control systems that keep renewable power plants safe, and I build the embedded hardware and models that predict how machines behave.</p>
+          <ul class="hero-facts">
+            <li>BEngTech (Hons), Nelson Mandela University</li>
+            <li>Candidate Engineering Technologist (ECSA)</li>
+            <li>Gqeberha, South Africa</li>
+          </ul>
+          <div class="actions">
+            <a class="btn btn-solid" href="#projects">See the work</a>
+            <a class="btn btn-line" href="#contact">Say hello</a>
+          </div>
         </div>
+      </div>
 
-        <div class="phases" aria-hidden="true">
-          <svg id="phase-svg" viewBox="0 0 1000 160">
-            <line class="axis" x1="0" y1="80" x2="1000" y2="80" />
-          </svg>
-        </div>
-        <div class="phase-key">
-          <div class="k-r"><strong>Power and protection</strong><span>Switchgear, IEDs and fault studies</span></div>
-          <div class="k-y"><strong>Control and automation</strong><span>Controller design, system identification, PLCs</span></div>
-          <div class="k-b"><strong>Embedded and modelling</strong><span>Firmware, data acquisition and digital twins</span></div>
+      <div class="scope">
+        <canvas id="scope" role="img" aria-label="Three-phase current waveform in red, yellow and blue"></canvas>
+        <div class="wrap">
+          <div class="scope-bar">
+            <span class="scope-state"><span class="cb" aria-hidden="true"></span><span id="cb-state">Breaker closed</span></span>
+            <p class="scope-msg" id="scope-msg" role="status">Three-phase supply, healthy.</p>
+            <button class="scope-btn" id="fault-btn" type="button">Inject a fault</button>
+          </div>
+          <div class="phase-key">
+            <div class="k-r"><strong>Power and protection</strong><span>Switchgear, IEDs and fault studies</span></div>
+            <div class="k-y"><strong>Control and automation</strong><span>Controller design, system identification, PLCs</span></div>
+            <div class="k-b"><strong>Embedded and modelling</strong><span>Firmware, data acquisition and digital twins</span></div>
+          </div>
         </div>
       </div>
     </div>
@@ -69,7 +79,7 @@
         <div class="section-head"><h2>About</h2></div>
         <div class="about">
           <figure>
-            <img src="assets/img/web/portrait.jpg" width="900" height="900" alt="Portrait of Kelvin Mafurendi" loading="lazy" />
+            <img src="assets/img/web/portrait.jpg" width="900" height="900" alt="Portrait of Kelvin Mafurendi" loading="lazy" decoding="async" />
           </figure>
           <div>
             <p>I'm interested in one question: how do you build intelligent systems that hold up on real hardware, not just in simulation?</p>
@@ -104,11 +114,13 @@
                 <div>
                   <h4>A utility-scale solar plant</h4>
                   <p class="meta">40 switchgear panels</p>
+                  <div class="lineup" data-n="40" aria-hidden="true"></div>
                   <p>Wrote the protection relay configurations for the bus-section, incomer, collector and capacitor filter bank panels, then demonstrated the scheme to the client at Factory Acceptance Testing.</p>
                 </div>
                 <div>
                   <h4>A wind energy facility</h4>
                   <p class="meta">13 switchgear panels</p>
+                  <div class="lineup" data-n="13" aria-hidden="true"></div>
                   <p>Simulated faults on the protection relays in 12 panels to prove they trip correctly, and fault-found the HV control and SCADA panels.</p>
                 </div>
               </div>
@@ -139,7 +151,7 @@
       <div class="wrap">
         <div class="section-head">
           <h2>Projects</h2>
-          <p>Research, coursework and personal builds. The coloured dot marks the discipline.</p>
+          <p>Research, coursework and personal builds. The colour marks the discipline.</p>
         </div>
         <ul class="filters" aria-label="Filter projects">
           <li><button type="button" data-filter="all" aria-pressed="true">All</button></li>
@@ -148,6 +160,7 @@
           <li><button type="button" data-filter="b" aria-pressed="false"><span class="dot b"></span>Embedded</button></li>
           <li><button type="button" data-filter="s" aria-pressed="false"><span class="dot s"></span>Software</button></li>
         </ul>
+        <p class="stack" id="filter-count" role="status">9 projects</p>
 
         <ul class="projects">
           <li class="project b" data-cat="b y">
@@ -367,8 +380,12 @@
 
   <footer>
     <div class="wrap">
-      <span>© <span id="year">2026</span> Kelvin Mafurendi</span>
-      <span class="lab"><img src="assets/img/web/spectra.png" width="200" height="119" alt="" />Writing and side projects published under Spectra Virtual Labs</span>
+      <p class="motto"><span>Whatever good thing you lay your hands on to do,</span> overdo it.</p>
+      <div class="foot">
+        <span>© <span id="year">2026</span> Kelvin Mafurendi</span>
+        <span class="lab"><img src="assets/img/web/spectra.png" width="200" height="119" alt="" loading="lazy" />Writing and side projects published under Spectra Virtual Labs</span>
+        <a href="#top">Back to top</a>
+      </div>
     </div>
   </footer>
 
@@ -378,7 +395,7 @@
     <p id="lightbox-caption"></p>
   </dialog>
 
-  <script src="assets/site/site.js"></script>
+  <script src="assets/site/site.js" defer></script>
   <script type="module" src="assets/site/photos.js"></script>
 </body>
 </html>
