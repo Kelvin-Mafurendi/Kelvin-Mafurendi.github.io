@@ -427,3 +427,60 @@ footer a:hover { color: var(--white); }
 .story-next a { text-decoration: none; }
 .story-next a:last-child { font-stretch: 62%; font-weight: 800; font-size: clamp(1.5rem, 3.4vw, 2.3rem); line-height: 1.05; color: var(--ink); }
 .story-next a:hover { text-decoration: underline; }
+
+/* ---------- Blocks from Kelvin Studio (writing pages and new stories) ---------- */
+:root { --sepia: #b89b72; }
+.story-body figure img[width][height] { height: auto; }
+.story-body figure.full { max-width: none; }
+.story-body .col > figure.full { width: 100vw; margin-left: calc(50% - 50vw); }
+.story-body figure.full img { width: 100%; border-radius: 0; border-left: 0; border-right: 0; }
+.story-body h3 { font-size: clamp(1.35rem, 2.4vw, 1.6rem); margin: 32px 0 8px; }
+.story-body ul, .story-body ol { margin: 0 0 1em; padding-left: 1.2em; }
+.story-body li { margin-bottom: 4px; }
+.story-body code { font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: .92em; background: var(--white); padding: 1px 5px; border-radius: 3px; }
+.story-body hr { border: 0; border-top: 1px solid var(--rule); width: 96px; margin: 40px auto; }
+blockquote.pull { margin: 32px 0; padding: 4px 0 4px 20px; border-left: 3px solid var(--sepia); }
+blockquote.pull p { font-size: clamp(1.25rem, 2.2vw, 1.5rem); font-style: italic; line-height: 1.4; margin: 0; }
+blockquote.pull cite { display: block; margin-top: 8px; color: var(--muted); font-style: normal; font-size: .95rem; }
+blockquote.pull cite::before { content: "\2014\00a0"; }
+.stanza { white-space: pre-wrap; }
+pre.code { background: var(--white); border: 1px solid var(--panel); border-radius: 4px; padding: 16px 18px; overflow-x: auto; margin: 24px 0; font-size: .92rem; line-height: 1.5; }
+pre.code code { background: none; padding: 0; font-size: inherit; }
+pre.code code.hljs { padding: 0; background: none; }
+.math { margin: 24px 0; overflow-x: auto; text-align: center; font-family: ui-monospace, Consolas, monospace; }
+.math .katex-display { margin: 0; }
+figure.voice { background: var(--white); border-radius: 4px; padding: 14px 16px; }
+figure.voice audio { width: 100%; }
+figure.voice details { margin-top: 8px; }
+figure.voice summary { cursor: pointer; font-weight: 600; color: var(--phase-b); }
+figure.voice details p { margin: 8px 0 0; }
+.story-body figure.video { max-width: 52em; }
+.story-body figure.video .frame { position: relative; aspect-ratio: 16 / 9; background: var(--ink); border-radius: 4px; overflow: hidden; }
+aside.callout { margin: 28px 0; padding: 14px 18px; border-left: 4px solid var(--phase-b); background: var(--white); border-radius: 0 4px 4px 0; }
+aside.callout.lesson { border-left-color: var(--phase-y-line); }
+aside.callout.warning { border-left-color: var(--phase-r); }
+aside.callout p:last-child, aside.callout ul:last-child, aside.callout ol:last-child { margin-bottom: 0; }
+.callout-label { font-family: var(--font); font-weight: 600; font-size: 1.15rem; margin: 0 0 4px; color: var(--phase-b); }
+.callout.lesson .callout-label { color: var(--phase-y); }
+.callout.warning .callout-label { color: var(--phase-r); }
+
+/* Writing pages: the story template with a narrower measure */
+.dot.sepia { background: var(--sepia); }
+.writing-page .story-body .col.measure { max-width: 34em; }
+.writing-page .story-meta div { border-top-color: var(--sepia); }
+.story-hero .byline { color: var(--muted); margin: 0; }
+.writing-page .story-hero .dek { margin-bottom: 12px; }
+.writing-page.poem h1,
+.writing-page.poem .story-body { font-family: "Source Serif 4", Georgia, serif; }
+.writing-page.poem h1 { font-weight: 600; letter-spacing: -.01em; }
+.writing-page.poem .stanza { font-size: 1.15rem; line-height: 1.75; margin: 0 0 1.6em; }
+.writing-page.poem blockquote.pull { border-left-color: var(--sepia); }
+
+/* Writing on the home page */
+.writing-list { list-style: none; margin: 0; padding: 0; max-width: 46em; }
+.writing-list li { padding: 18px 0; border-top: 1px solid var(--rule); }
+.writing-list li:first-child { border-top: 0; padding-top: 0; }
+.writing-list a { font-family: var(--font); font-weight: 600; font-size: 1.6rem; line-height: 1.15; text-decoration: none; }
+.writing-list p { margin: 4px 0 0; max-width: 40em; }
+.writing-list .meta { color: var(--muted); font-size: .95rem; }
+.tag-poem { display: inline-block; margin-left: 8px; padding: 0 8px; border: 1px solid var(--sepia); border-radius: 999px; color: var(--ink); font-size: .85rem; }

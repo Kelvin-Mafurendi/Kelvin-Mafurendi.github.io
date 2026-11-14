@@ -1,0 +1,68 @@
+# Builds the site from published Kelvin Studio entries and deploys it to
+# GitHub Pages (DESIGN.md, The build).
+#
+# The deploy job stays off until the repository variable STUDIO_SITE_BUILD is
+# "true" and Pages is set to deploy from GitHub Actions. Until then the site
+# is served from the branch as before, and only the tests run.
+
+name: Site
+
+on:
+  repository_dispatch:
+    types: [studio-publish]
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    - cron: "17 1 * * *" # nightly safety net
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Renderer tests
+        working-directory: build
+        run: |
+          npm ci --omit=dev --ignore-scripts
+          npm test
+
+  deploy:
+    needs: test
+    if: vars.STUDIO_SITE_BUILD == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install
+        working-directory: build
+        run: npm ci --omit=dev --ignore-scripts
+      - name: Build
+        run: node build/build.mjs
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4

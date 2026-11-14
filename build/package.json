@@ -1,0 +1,19 @@
+{
+  "name": "kelvin-mafurendi-site-build",
+  "private": true,
+  "type": "module",
+  "description": "Builds the static site from published Kelvin Studio entries.",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node --test \"test/*.test.mjs\"",
+    "compare": "node check/compare.mjs"
+  },
+  "dependencies": {
+    "firebase-admin": "^14.5.0"
+  },
+  "devDependencies": {
+    "pixelmatch": "^8.0.0",
+    "playwright": "^1.65.0",
+    "pngjs": "^7.0.0"
+  }
+}
