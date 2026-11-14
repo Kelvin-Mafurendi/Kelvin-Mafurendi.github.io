@@ -56,6 +56,13 @@ jobs:
       - name: Install
         working-directory: build
         run: npm ci --omit=dev --ignore-scripts
+      # Tells the app the build has started (builds/{id}); a no-op for builds not started by a publish.
+      - name: Report building
+        run: node build/report.mjs building
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          BUILD_ID: ${{ github.event.client_payload.buildId }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
       - name: Build
         run: node build/build.mjs
         env:
@@ -66,3 +73,17 @@ jobs:
           path: _site
       - id: deployment
         uses: actions/deploy-pages@v4
+      - name: Report live
+        if: success()
+        run: node build/report.mjs live
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          BUILD_ID: ${{ github.event.client_payload.buildId }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      - name: Report failed
+        if: failure()
+        run: node build/report.mjs failed
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          BUILD_ID: ${{ github.event.client_payload.buildId }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}

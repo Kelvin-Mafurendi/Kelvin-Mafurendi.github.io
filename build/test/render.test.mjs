@@ -129,3 +129,11 @@ test('the page shows the entry, never script from it', () => {
   const html = writingMain({ kind: 'article', title: '<script>x</script>', summary: '<b>hi</b>', blocks: [] });
   assert.doesNotMatch(html, /<script>|<b>hi/);
 });
+
+test('build reports: building has a start time, live and failed a finish time, nothing else is accepted', async () => {
+  const { reportFields } = await import('../report.mjs');
+  const now = new Date('2026-11-14T10:00:00Z');
+  assert.deepEqual(reportFields('building', { runUrl: 'https://x/run', now }), { status: 'building', runUrl: 'https://x/run', startedAt: now });
+  assert.deepEqual(reportFields('live', { now }), { status: 'live', runUrl: null, finishedAt: now });
+  assert.throws(() => reportFields('published'));
+});
